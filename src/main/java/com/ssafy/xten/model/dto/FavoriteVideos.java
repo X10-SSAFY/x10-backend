@@ -3,14 +3,13 @@ package com.ssafy.xten.model.dto;
 public class FavoriteVideos {
 	private int favoriteVideosSeq;
 	private int userSeq;
+	private String videoUrl;
 
-	public FavoriteVideos() {
-	}
-
-	public FavoriteVideos(int favoriteVideosSeq, int userSeq) {
+	public FavoriteVideos(int favoriteVideosSeq, int userSeq, String videoUrl) {
 		super();
 		this.favoriteVideosSeq = favoriteVideosSeq;
 		this.userSeq = userSeq;
+		this.videoUrl = videoUrl;
 	}
 
 	public int getFavoriteVideosSeq() {
@@ -27,6 +26,17 @@ public class FavoriteVideos {
 
 	public void setUserSeq(int userSeq) {
 		this.userSeq = userSeq;
+	}
+
+	public String getVideoUrl() {
+		return videoUrl;
+	}
+
+	public void setVideoUrl(String videoUrl) {
+		this.videoUrl = videoUrl;
+	}
+
+	public FavoriteVideos() {
 	}
 
 }

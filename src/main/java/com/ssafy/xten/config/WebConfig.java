@@ -21,14 +21,8 @@ public class WebConfig implements WebMvcConfigurer {
 	public void addInterceptors(InterceptorRegistry registry) {
 		// 인터셉터 필요하면 등록. 
 	}
-	
-	//CORS 에러를 해결하기 위해서 컨트롤러에서 세분화 하여 처리할 수도 있지만
-	//전역설정처럼 여기서 한방에 처리할 수도 있음
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
 		registry.addMapping("/**").allowedOrigins("*");
 	}
-	
-	
-
 }

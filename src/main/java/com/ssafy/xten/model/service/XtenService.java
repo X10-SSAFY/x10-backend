@@ -13,29 +13,29 @@ public interface XtenService {
 	public List<Exercise> getAllExercises();
 
 	// 사용자의 모든 테스트 결과 가져오기
-	public List<TestResult> getTestResults(int userSeq);
+	public List<TestResult> getTestResults(int seq);
 
 	// 찜한영상 가져오기
-	public List<FavoriteVideos> getFavoriteVideos(int userSeq);
+	public List<FavoriteVideos> getFavoriteVideos(int seq);
 
 	// 찜한운동 가져오기
-	public List<FavoriteExercises> getFavoriteExercises(int userSeq);
+	public List<FavoriteExercises> getFavoriteExercises(int seq);
 
 	// 찜한영상에 추가
-	public void addFavoriteVideos(int userSeq, String videoUrl);
+	public void addFavoriteVideos(String videoUrl);
 
 	// 찜한영상에서 삭제
-	public void removeFavoriteVideos(int userSeq, int favoriteVideoSeq);
+	public void removeFavoriteVideos(int seq);
 
 	// 찜한운동에 추가
 	public void addFavoriteExercises(int userSeq, int exerciseSeq);
 
 	// 찜한운동에서 삭제
-	public void removeFavoriteExercises(int userSeq, int favoriteExerciseSeq);
+	public void removeFavoriteExercises(int seq);
 
 	// 테스트 결과 저장
 	public void addTestResult(int userSeq, int exerciseSeq);
 
 	// 테스트 결과 삭제
-	public void removeTestResult(int userSeq, int testResultSeq);
+	public void removeTestResult(int seq);
 }

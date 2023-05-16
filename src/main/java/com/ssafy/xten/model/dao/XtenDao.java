@@ -12,29 +12,29 @@ public interface XtenDao {
 	public List<Exercise> selectAllExercises();
 
 	// 사용자의 모든 테스트 결과 가져오기
-	public List<TestResult> selectTestResults(int userSeq);
+	public List<TestResult> selectTestResults(int seq);
 
 	// 찜한영상 가져오기
-	public List<FavoriteVideos> selectFavoriteVideos(int userSeq);
+	public List<FavoriteVideos> selectFavoriteVideos(int seq);
 
 	// 찜한운동 가져오기
-	public List<FavoriteExercises> selectFavoriteExercises(int userSeq);
+	public List<FavoriteExercises> selectFavoriteExercises(int seq);
 
 	// 찜한영상에 추가
-	public void insertFavoriteVideos(int userSeq, String videoUrl);
+	public void insertFavoriteVideos(FavoriteVideos fv);
 
 	// 찜한영상에서 삭제
-	public void deleteFavoriteVideos(int userSeq, int favoriteVideoSeq);
+	public void deleteFavoriteVideos(int seq);
 
 	// 찜한운동에 추가
-	public void insertFavoriteExercises(int userSeq, int exerciseSeq);
+	public void insertFavoriteExercises(FavoriteExercises fe);
 
 	// 찜한운동에서 삭제
-	public void deleteFavoriteExercises(int userSeq, int favoriteExerciseSeq);
+	public void deleteFavoriteExercises(int seq);
 
 	// 테스트 결과 저장
-	public void insertTestResult(int userSeq, int exerciseSeq);
+	public void insertTestResult(TestResult tr);
 
 	// 테스트 결과 삭제
-	public void deleteTestResult(int userSeq, int testResultSeq);
+	public void deleteTestResult(int seq);
 }

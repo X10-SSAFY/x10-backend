@@ -45,33 +45,42 @@ public class XtenServiceImpl implements XtenService {
 	}
 
 	@Override
-	public void addFavoriteVideos(int userSeq, String videoUrl) {
-		xtenDao.insertFavoriteVideos(userSeq, videoUrl);
+	public void addFavoriteVideos(String videoUrl) {
+		FavoriteVideos favoriteVideo = new FavoriteVideos();
+		favoriteVideo.setVideoUrl(videoUrl);
+		xtenDao.insertFavoriteVideos(favoriteVideo);
 	}
 
 	@Override
-	public void removeFavoriteVideos(int userSeq, int favoriteVideoSeq) {
-		xtenDao.deleteFavoriteVideos(userSeq, favoriteVideoSeq);
+	public void removeFavoriteVideos(int seq) {
+		xtenDao.deleteFavoriteVideos(seq);
 	}
 
 	@Override
 	public void addFavoriteExercises(int userSeq, int exerciseSeq) {
-		xtenDao.insertFavoriteExercises(userSeq, exerciseSeq);
+		FavoriteExercises favoriteExercise = new FavoriteExercises();
+		favoriteExercise.setUserSeq(userSeq);
+		favoriteExercise.setExerciseSeq(exerciseSeq);
+		xtenDao.insertFavoriteExercises(favoriteExercise);
 	}
 
 	@Override
-	public void removeFavoriteExercises(int userSeq, int favoriteExerciseSeq) {
-		xtenDao.deleteFavoriteExercises(userSeq, favoriteExerciseSeq);
+	public void removeFavoriteExercises(int seq) {
+		xtenDao.deleteFavoriteExercises(seq);
 	}
 
 	@Override
 	public void addTestResult(int userSeq, int exerciseSeq) {
-		xtenDao.insertTestResult(userSeq, exerciseSeq);
+		TestResult testResult = new TestResult();
+		testResult.setUserSeq(userSeq);
+		testResult.setExerciseSeq(exerciseSeq);
+		xtenDao.insertTestResult(testResult);
 	}
 
 	@Override
-	public void removeTestResult(int userSeq, int testResultSeq) {
-		xtenDao.deleteTestResult(userSeq, testResultSeq);
+	public void removeTestResult(int seq) {
+		xtenDao.deleteTestResult(seq);
 	}
+
 
 }

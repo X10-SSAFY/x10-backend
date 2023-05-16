@@ -3,15 +3,17 @@ package com.ssafy.xten.model.dto;
 public class TestResult {
 	private int testResultSeq;
 	private int userSeq;
+	private int exerciseSeq;
 	private String testDate;
 
 	public TestResult() {
 	}
 
-	public TestResult(int testResultSeq, int userSeq, String testDate) {
+	public TestResult(int testResultSeq, int userSeq, int exerciseSeq, String testDate) {
 		super();
 		this.testResultSeq = testResultSeq;
 		this.userSeq = userSeq;
+		this.exerciseSeq = exerciseSeq;
 		this.testDate = testDate;
 	}
 
@@ -31,6 +33,14 @@ public class TestResult {
 		this.userSeq = userSeq;
 	}
 
+	public int getExerciseSeq() {
+		return exerciseSeq;
+	}
+
+	public void setExerciseSeq(int exerciseSeq) {
+		this.exerciseSeq = exerciseSeq;
+	}
+
 	public String getTestDate() {
 		return testDate;
 	}
@@ -38,5 +48,6 @@ public class TestResult {
 	public void setTestDate(String testDate) {
 		this.testDate = testDate;
 	}
+
 
 }
