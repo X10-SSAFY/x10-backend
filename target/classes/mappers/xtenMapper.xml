@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.xten.model.dao.XtenDao">
+
+	<!-- 전체 운동 조회 -->
+	<select id="selectAllExercises" resultType="Exercise">
+		SELECT *
+		FROM exercise;
+	</select>
+	
+	<!-- 전체 운동 조회 -->
+	<select id="selectTestResults" resultType="TestResult">
+		SELECT *
+		FROM test_result;
+	</select>
+	
+	
+	<!-- 찜한영상 조회 -->
+	<select id="selectFavoriteVideos" resultType="FavoriteVideos">
+		SELECT *
+		FROM favorite_videos;
+	</select>
+	
+	<!-- 찜한운동 조회 -->
+	<select id="selectFavoriteExercises" parameterType="FavoriteExercises">
+		SELECT *
+		FROM favorite_exercises;
+	</select>
+	
+	<!-- 찜한영상에 추가 -->
+	
+	<!-- 조회수 증가 -->
+	<update id="updateViewCnt" parameterType="int">
+		UPDATE board
+		SET view_cnt = view_cnt+1
+		WHERE id = #{id}
+	</update>
+	
+	
+	<!-- 게시글 수정 -->
+	<!-- 지금 게시글 날짜는 등록 날짜만 존재한다. 나중에 수정날짜도 같이 관리하게 된다면의 상황을보자ㅏ... -->
+	<update id="updateBoard" parameterType="Board">
+		UPDATE board
+		SET title = #{title}, content=#{content}, reg_date = now()
+		WHERE id=#{id}
+	</update>	
+	
+	<!-- 검색기능 -->
+	<select id="search" resultType="Board" parameterType="SearchCondition" >
+		SELECT id, content, writer, title, view_cnt as viewCnt, date_format(reg_date, '%y-%m-%d %H:%i:%s') as regDate
+		FROM board
+		<!-- 어떤 기준을 가지고 검색을 할거냐!!! -->
+		<if test="key != 'none'">
+			WHERE ${key} LIKE concat('%', #{word}, '%')
+		</if>
+		<!-- 어떤 기준으로 어떤 방향으로 정렬할래? -->
+		<if test="orderBy != 'none'">
+			ORDER BY ${orderBy} ${orderByDir}
+		</if>
+		
+		
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+
+</mapper>

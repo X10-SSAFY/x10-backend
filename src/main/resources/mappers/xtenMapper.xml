@@ -2,40 +2,34 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ssafy.board.model.dao.BoardDao">
-	<resultMap type="Board" id="boardMap">
-		<result column="id" property="id"/>
-		<result column="writer" property="writer"/>
-		<result column="title" property="title"/>
-		<result column="content" property="content"/>
-		<result column="view_cnt" property="viewCnt"/>
-		<result column="reg_date" property="regDate"/>
-	</resultMap>
+<mapper namespace="com.ssafy.xten.model.dao.XtenDao">
 
-	<!-- 전체글 조회 -->
-	<select id="selectAll" resultType="Board">
-		SELECT id, content, writer, title, view_cnt as viewCnt, date_format(reg_date, '%y-%m-%d %H:%i:%s') as regDate
-		FROM board;
+	<!-- 전체 운동 조회 -->
+	<select id="selectAllExercises" resultType="Exercise">
+		SELECT *
+		FROM exercise;
 	</select>
 	
-	<!-- 상세글 조회 -->
-	<select id="selectOne" parameterType="int"  resultMap="boardMap">
-		SELECT id, content, writer, title, view_cnt, date_format(reg_date, '%y-%m-%d') as reg_date
-		FROM board
-		WHERE id = #{id};
+	<!-- 전체 운동 조회 -->
+	<select id="selectTestResults" resultType="TestResult">
+		SELECT *
+		FROM test_result;
 	</select>
 	
-	<!-- 게시글 등록 -->
-	<insert id="insertBoard" parameterType="Board" keyProperty="id" useGeneratedKeys="true">
-		INSERT INTO board (id, title, writer, content)
-		VALUES (#{id}, #{title}, #{writer}, #{content})
-	</insert>
 	
-	<!-- 게시글 삭제 -->
-	<delete id="deleteBoard" parameterType="int">
-		DELETE FROM board
-		WHERE id = #{id}
-	</delete>
+	<!-- 찜한영상 조회 -->
+	<select id="selectFavoriteVideos" resultType="FavoriteVideos">
+		SELECT *
+		FROM favorite_videos;
+	</select>
+	
+	<!-- 찜한운동 조회 -->
+	<select id="selectFavoriteExercises" parameterType="FavoriteExercises">
+		SELECT *
+		FROM favorite_exercises;
+	</select>
+	
+	<!-- 찜한영상에 추가 -->
 	
 	<!-- 조회수 증가 -->
 	<update id="updateViewCnt" parameterType="int">

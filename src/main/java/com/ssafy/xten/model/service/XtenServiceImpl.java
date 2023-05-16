@@ -9,6 +9,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafy.xten.model.dao.XtenDao;
 import com.ssafy.xten.model.dto.Exercise;
+import com.ssafy.xten.model.dto.FavoriteExercises;
+import com.ssafy.xten.model.dto.FavoriteVideos;
+import com.ssafy.xten.model.dto.TestResult;
 
 @Service
 public class XtenServiceImpl implements XtenService {
@@ -22,34 +25,53 @@ public class XtenServiceImpl implements XtenService {
 	}
 
 	@Override
-	public List<Exercise> getExerciseList() {
+	public List<Exercise> getAllExercises() {
 		return xtenDao.selectAllExercises();
 	}
 
 	@Override
-	public Exercise readExercise(int seq) {
-		return xtenDao.getExercise(seq);
-	}
-
-	@Transactional
-	@Override
-	public void addFavoriteVideos(String videoUrl) {
-		xtenDao.addFavoriteVideos(videoUrl);
-	}
-
-	@Transactional
-	@Override
-	public void removeFavoriteExercises(int seq) {
-		xtenDao.removeFavoriteExercises(seq);
+	public List<TestResult> getTestResults(int userSeq) {
+		return xtenDao.selectTestResults(userSeq);
 	}
 
 	@Override
-	public void addFavoriteExercises(int seq) {
-		xtenDao.addFavoriteExercises(seq);
+	public List<FavoriteVideos> getFavoriteVideos(int userSeq) {
+		return xtenDao.selectFavoriteVideos(userSeq);
 	}
 
 	@Override
-	public void removeFavoriteVideos(int seq) {
-		xtenDao.removeFavoriteExercises(seq);
+	public List<FavoriteExercises> getFavoriteExercises(int userSeq) {
+		return xtenDao.selectFavoriteExercises(userSeq);
 	}
+
+	@Override
+	public void addFavoriteVideos(int userSeq, String videoUrl) {
+		xtenDao.insertFavoriteVideos(userSeq, videoUrl);
+	}
+
+	@Override
+	public void removeFavoriteVideos(int userSeq, int favoriteVideoSeq) {
+		xtenDao.deleteFavoriteVideos(userSeq, favoriteVideoSeq);
+	}
+
+	@Override
+	public void addFavoriteExercises(int userSeq, int exerciseSeq) {
+		xtenDao.insertFavoriteExercises(userSeq, exerciseSeq);
+	}
+
+	@Override
+	public void removeFavoriteExercises(int userSeq, int favoriteExerciseSeq) {
+		xtenDao.deleteFavoriteExercises(userSeq, favoriteExerciseSeq);
+	}
+
+	@Override
+	public void addTestResult(int userSeq, int exerciseSeq) {
+		xtenDao.insertTestResult(userSeq, exerciseSeq);
+	}
+
+	@Override
+	public void removeTestResult(int userSeq, int testResultSeq) {
+		xtenDao.deleteTestResult(userSeq, testResultSeq);
+	}
+
 }
