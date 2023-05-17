@@ -45,15 +45,16 @@ public class XtenServiceImpl implements XtenService {
 	}
 
 	@Override
-	public void addFavoriteVideos(String videoUrl) {
+	public void addFavoriteVideos(int userSeq, String videoUrl) {
 		FavoriteVideos favoriteVideo = new FavoriteVideos();
+		favoriteVideo.setUserSeq(userSeq);
 		favoriteVideo.setVideoUrl(videoUrl);
 		xtenDao.insertFavoriteVideos(favoriteVideo);
 	}
 
 	@Override
-	public void removeFavoriteVideos(int seq) {
-		xtenDao.deleteFavoriteVideos(seq);
+	public void removeFavoriteVideos(int userSeq, int favoriteVideoSeq) {
+		xtenDao.deleteFavoriteVideos(userSeq, favoriteVideoSeq);
 	}
 
 	@Override
@@ -65,8 +66,8 @@ public class XtenServiceImpl implements XtenService {
 	}
 
 	@Override
-	public void removeFavoriteExercises(int seq) {
-		xtenDao.deleteFavoriteExercises(seq);
+	public void removeFavoriteExercises(int userSeq, int favoriteExercisesSeq) {
+		xtenDao.deleteFavoriteExercises(userSeq, favoriteExercisesSeq);
 	}
 
 	@Override
@@ -78,9 +79,7 @@ public class XtenServiceImpl implements XtenService {
 	}
 
 	@Override
-	public void removeTestResult(int seq) {
-		xtenDao.deleteTestResult(seq);
+	public void removeTestResult(int userSeq, int testResultSeq) {
+		xtenDao.deleteTestResult(userSeq, testResultSeq);
 	}
-
-
 }

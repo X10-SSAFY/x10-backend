@@ -39,4 +39,10 @@ public class FavoriteVideos {
 	public FavoriteVideos() {
 	}
 
+	@Override
+	public String toString() {
+		return "FavoriteVideos [favoriteVideosSeq=" + favoriteVideosSeq + ", userSeq=" + userSeq + ", videoUrl="
+				+ videoUrl + "]";
+	}
+
 }

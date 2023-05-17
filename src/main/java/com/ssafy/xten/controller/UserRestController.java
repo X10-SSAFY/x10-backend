@@ -46,7 +46,7 @@ public class UserRestController {
 			return new ResponseEntity<Void>(HttpStatus.UNAUTHORIZED);
 		}
 		session.setAttribute("loginUser", tmp);
-		return new ResponseEntity<String>(tmp.getName(), HttpStatus.OK);
+		return new ResponseEntity<String>(tmp.getNickname(), HttpStatus.OK);
 	}
 
 	// 로그아웃

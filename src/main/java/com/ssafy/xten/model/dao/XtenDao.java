@@ -24,17 +24,17 @@ public interface XtenDao {
 	public void insertFavoriteVideos(FavoriteVideos fv);
 
 	// 찜한영상에서 삭제
-	public void deleteFavoriteVideos(int seq);
+	public void deleteFavoriteVideos(int userSeq, int favoriteVideosSeq);
 
 	// 찜한운동에 추가
 	public void insertFavoriteExercises(FavoriteExercises fe);
-
+                            
 	// 찜한운동에서 삭제
-	public void deleteFavoriteExercises(int seq);
+	public void deleteFavoriteExercises(int userSeq, int favoriteExercisesSeq);
 
 	// 테스트 결과 저장
 	public void insertTestResult(TestResult tr);
 
 	// 테스트 결과 삭제
-	public void deleteTestResult(int seq);
+	public void deleteTestResult(int userSeq, int testResultSeq);
 }

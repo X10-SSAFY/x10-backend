@@ -15,7 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.xten.model.dto.Exercise;
+import com.ssafy.xten.model.dto.FavoriteExercises;
+import com.ssafy.xten.model.dto.FavoriteVideos;
 import com.ssafy.xten.model.dto.SearchCondition;
+import com.ssafy.xten.model.dto.TestResult;
 import com.ssafy.xten.model.service.XtenService;
 
 import io.swagger.annotations.Api;
@@ -26,45 +29,94 @@ import springfox.documentation.annotations.ApiIgnore;
 @RequestMapping("/api")
 @Api(tags = "X10 컨트롤러")
 public class XtenRestController {
-	
+
 	@Autowired
 	private XtenService xtenService;
-	
-	// 전체 운동 목록 조회
-	@ApiOperation(value="운동 조회", notes = "")
+
+	// 전체 운동 가져오기
+	@ApiOperation(value = "등록된 모든 운동 조회", notes = "전부 가져와")
 	@GetMapping("/xten/exercises")
-	public ResponseEntity<?> list(SearchCondition condition){
-		List<Exercise> list = xtenService.getExerciseList(); 
-		
-		if(list == null || list.size() == 0)
-			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+	public ResponseEntity<?> getExercises() {
+		List<Exercise> list = xtenService.getAllExercises();
 		return new ResponseEntity<List<Exercise>>(list, HttpStatus.OK);
 	}
-	// 운동 상세 보기 
-	@GetMapping("/xten/exercises/{id}")
-	public ResponseEntity<Exercise> detail(@PathVariable int id){
-		Exercise exercise = xtenService.readExercise(id);
-		return new ResponseEntity<Exercise>(exercise, HttpStatus.OK);
+
+	// 사용자의 모든 테스트 결과 가져오기
+	@ApiOperation(value = "사용자의 모든 테스트 결과 조회", notes = "유저 일련번호로 조회")
+	@GetMapping("/xten/testresults/{userSeq}")
+	public ResponseEntity<?> getTestResults(@PathVariable int userSeq) {
+		List<TestResult> list = xtenService.getTestResults(userSeq);
+		if (list == null || list.size() == 0)
+			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+		return new ResponseEntity<List<TestResult>>(list, HttpStatus.OK);
 	}
-	
-	// 요청받은 url의 영상을 찜한영상에 추가 
-	@PostMapping("/xten/videos/{url}")
-	public ResponseEntity<Void> write(@PathVariable String url){
-		xtenService.addFavoriteVideos(url);
-		//지금 우리의 게시글은 키가 절대로 중복이 되지 않는다. 그래서 무조건 등록은 될꺼임... 
-		//가끔가다가 혹여나 여기말고 다른곳에서 문제가 발생해서 글이 등록되지 않았다... 
-		//DB에 댕겨올때 테이블을 변경하는 작업이라면 무엇인가를 하나 돌려줌... 무엇? 테이블을 건드린 행의 개수가 반환이된다.
-		//만약에 0이라면 이거 등록 안된거니까 등록 안됬어요 ㅠㅠ 하고 프론트에게 돌려주어야 겠다.
-		//그게 아니라면 잘 등록이 된거니까... OK 보내도 가넝
-		return new ResponseEntity<Void>(HttpStatus.ACCEPTED);
+
+	// 찜한영상 가져오기
+	@ApiOperation(value = "사용자가 찜한 영상 조회", notes = "유저 일련번호로 조회")
+	@GetMapping("/xten/favoritevideos/{userSeq}")
+	public ResponseEntity<?> getFavoriteVideos(@PathVariable int userSeq) {
+		List<FavoriteVideos> list = xtenService.getFavoriteVideos(userSeq);
+		if (list == null || list.size() == 0)
+			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+		return new ResponseEntity<List<FavoriteVideos>>(list, HttpStatus.OK);
 	}
-	
-	//4. 삭제
-	@DeleteMapping("/exercises/{id}")
-	public ResponseEntity<Void> delete(@PathVariable int id){
-		xtenService.readExercise(id);
+
+	// 찜한운동 가져오기
+	@ApiOperation(value = "사용자가 찜한 운동 조회", notes = "유저 일련번호로 조회")
+	@GetMapping("/xten/favoriteexercises/{userSeq}")
+	public ResponseEntity<?> getFavoriteExercises(@PathVariable int userSeq) {
+		List<FavoriteExercises> list = xtenService.getFavoriteExercises(userSeq);
+		if (list == null || list.size() == 0)
+			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+		return new ResponseEntity<List<FavoriteExercises>>(list, HttpStatus.OK);
+	}
+
+	// 찜한운동에 추가
+	@ApiOperation(value = "찜한 운동 목록에 추가 ", notes = "유저 일련번호, 운동 일련번호 입력해서 추가")
+	@PostMapping("/xten/favoriteexercises/{userSeq}/{exerciseSeq}")
+	public ResponseEntity<?> addFavoriteExercises(@PathVariable int userSeq, @PathVariable int exerciseSeq) {
+		xtenService.addFavoriteExercises(userSeq, exerciseSeq);
+		return new ResponseEntity<Void>(HttpStatus.OK);
+	}
+
+	// 찜한운동에서 삭제
+	@ApiOperation(value = "찜한 운동 목록에서 삭제 ", notes = "유저 일련번호, 찜한 운동 일련번호 입력해서 삭제")
+	@DeleteMapping("/xten/favoriteexercises/{userSeq}/{favoriteExercisesSeq}")
+	public ResponseEntity<?> removeFavoriteExercises(@PathVariable int userSeq, @PathVariable int favoriteExercisesSeq) {
+		xtenService.removeFavoriteExercises(userSeq, favoriteExercisesSeq);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 	
-	
+	// 찜한영상에 추가
+	@ApiOperation(value = "찜한 영상 목록에 추가", notes = "유저 일련번호, 비디오url 입력해서 추가")
+	@PostMapping("/xten/favoritevideos/{userSeq}/{videoUrl}")
+	public ResponseEntity<?> addFavoriteVideos(@PathVariable int userSeq, @PathVariable String videoUrl) {
+		xtenService.addFavoriteVideos(userSeq, videoUrl);
+		return new ResponseEntity<Void>(HttpStatus.OK);
+	}
+
+	// 찜한영상에서 삭제
+	@ApiOperation(value = "찜한 영상 목록에서 삭제 ", notes = "유저 일련번호, 찜한 영상 일련번호 입력해서 삭제")
+	@DeleteMapping("/xten/favoritevideos/{userSeq}/{favoritevideosSeq}")
+	public ResponseEntity<?> removeFavoriteVideos(@PathVariable int userSeq, @PathVariable int favoritevideosSeq) {
+		xtenService.removeFavoriteVideos(userSeq, favoritevideosSeq);
+		return new ResponseEntity<Void>(HttpStatus.OK);
+	}
+
+	// 테스트 결과 저장
+	@ApiOperation(value = "테스트 결과 저장 ", notes = "유저 일련번호, 운동 일련번호 입력해서 추가")
+	@PostMapping("/xten/testresults/{userSeq}/{exerciseSeq}")
+	public ResponseEntity<?> addTestResult(@PathVariable int userSeq, @PathVariable int exerciseSeq) {
+		xtenService.addTestResult(userSeq, exerciseSeq);
+		return new ResponseEntity<Void>(HttpStatus.OK);
+	}
+
+	// 테스트 결과 삭제
+	@ApiOperation(value = "테스트 결과 삭제 ", notes = "유저 일련번호, 테스트 결과 일련번호 입력해서 추가")
+	@DeleteMapping("/xten/testresults/{userSeq}/{testResultSeq}")
+	public ResponseEntity<?> removeTestResult(@PathVariable int userSeq, @PathVariable int testResultSeq) {
+		xtenService.removeTestResult(userSeq,testResultSeq);
+		return new ResponseEntity<Void>(HttpStatus.OK);
+	}
+
 }

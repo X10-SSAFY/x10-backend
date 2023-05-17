@@ -22,20 +22,20 @@ public interface XtenService {
 	public List<FavoriteExercises> getFavoriteExercises(int seq);
 
 	// 찜한영상에 추가
-	public void addFavoriteVideos(String videoUrl);
+	public void addFavoriteVideos(int userSeq, String videoUrl);
 
 	// 찜한영상에서 삭제
-	public void removeFavoriteVideos(int seq);
+	public void removeFavoriteVideos(int userSeq, int favoriteVideosSeq);
 
 	// 찜한운동에 추가
 	public void addFavoriteExercises(int userSeq, int exerciseSeq);
 
 	// 찜한운동에서 삭제
-	public void removeFavoriteExercises(int seq);
+	public void removeFavoriteExercises(int userSeq, int favoriteExercisesSeq);
 
 	// 테스트 결과 저장
 	public void addTestResult(int userSeq, int exerciseSeq);
 
 	// 테스트 결과 삭제
-	public void removeTestResult(int seq);
+	public void removeTestResult(int userSeq, int testResultSeq);
 }

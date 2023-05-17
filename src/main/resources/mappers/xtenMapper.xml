@@ -6,25 +6,36 @@
 
 	<!-- 전체 운동 조회 -->
 	<select id="selectAllExercises" resultType="Exercise">
-		SELECT *
+		SELECT exercise_seq as exerciseSeq,
+		exercise_name as exerciseName,
+		exercise_image as exerciseImage
 		FROM exercise
 	</select>
 	
-	<!-- 전체 운동 조회 -->
-	<select id="selectTestResults" resultType="TestResult">
-		SELECT *
+	<!-- 전체 테스트 결과 조회 -->
+	<select id="selectTestResults" resultType="TestResult" parameterType="int">
+		SELECT test_result_seq as testResultSeq,
+		user_seq as userSeq,
+		exercise_seq as exerciseSeq,
+		date_format(test_date, '%y-%m-%d %H:%i:%s') as testDate
 		FROM test_result
+		WHERE user_seq=#{userSeq}
 	</select>
 	
 	<!-- 찜한영상 조회 -->
-	<select id="selectFavoriteVideos" resultType="FavoriteVideos">
-		SELECT *
+	<select id="selectFavoriteVideos" resultType="FavoriteVideos" parameterType="int">
+		SELECT favorite_videos_seq as favoriteVideosSeq,
+		user_seq as userSeq,
+		video_url as videoUrl
 		FROM favorite_videos
+		WHERE user_seq=#{userSeq}
 	</select>
 	
 	<!-- 찜한운동 조회 -->
 	<select id="selectFavoriteExercises" resultType="FavoriteExercises">
-		SELECT *
+		SELECT favorite_exercises_seq as favoriteExercisesSeq,
+		exercise_seq as exerciseSeq,
+		user_seq userSeq
 		FROM favorite_exercises
 	</select>
 	
@@ -37,30 +48,30 @@
 	<!-- 찜한영상에서 삭제 -->
 	<delete id="deleteFavoriteVideos" parameterType="int">
 		DELETE FROM favorite_videos
-		WHERE favorite_videos_seq=#{favoriteVideosSeq}
+		WHERE user_seq=#{userSeq} AND favorite_videos_seq=#{favoriteVideosSeq}
 	</delete>
 	
 	
 	<!-- 찜한운동에 추가 -->
 	<insert id="insertFavoriteExercises" parameterType="FavoriteExercises">
-		INSERT INTO favorite_exercises (user_seq)
-		VALUES(#{userSeq})
+		INSERT INTO favorite_exercises (user_seq, exercise_seq)
+		VALUES(#{userSeq}, #{exerciseSeq})
 	</insert>
 	
 	<!-- 찜한운동에서 삭제 -->
 	<delete id="deleteFavoriteExercises" parameterType="int">
 		DELETE FROM favorite_exercises
-		WHERE favorite_exercises_seq=#{favoriteExercisesSeq}
+		WHERE user_seq=#{userSeq} AND favorite_exercises_seq=#{favoriteExercisesSeq}
 	</delete>
 	
 	<!-- 테스트 결과 저장 -->
 	<insert id="insertTestResult" parameterType="TestResult">
-		INSERT INTO test_result (user_seq)
-		VALUES(#{userSeq})
+		INSERT INTO test_result (user_seq, exercise_seq)
+		VALUES(#{userSeq}, #{exerciseSeq})
 	</insert>
 	
 	<!-- 테스트 결과 삭제 -->
-	<delete id="deleteTestResult" parameterType="TestResult">
+	<delete id="deleteTestResult" parameterType="int">
 		DELETE FROM test_result
 		WHERE user_seq=#{userSeq} AND test_result_seq=#{testResultSeq}
 	</delete>
