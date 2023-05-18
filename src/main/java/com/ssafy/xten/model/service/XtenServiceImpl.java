@@ -82,4 +82,6 @@ public class XtenServiceImpl implements XtenService {
 	public void removeTestResult(int userSeq, int testResultSeq) {
 		xtenDao.deleteTestResult(userSeq, testResultSeq);
 	}
+
+
 }

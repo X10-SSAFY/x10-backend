@@ -38,4 +38,5 @@ public interface XtenService {
 
 	// 테스트 결과 삭제
 	public void removeTestResult(int userSeq, int testResultSeq);
+	
 }

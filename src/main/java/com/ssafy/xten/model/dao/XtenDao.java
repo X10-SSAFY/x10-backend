@@ -37,4 +37,5 @@ public interface XtenDao {
 
 	// 테스트 결과 삭제
 	public void deleteTestResult(int userSeq, int testResultSeq);
+
 }

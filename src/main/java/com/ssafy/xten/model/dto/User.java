@@ -11,7 +11,7 @@ public class User {
 	public User() {
 	}
 
-	public User(int userSeq, String id, String password, String email, String name, String img) {
+	public User(int userSeq, String id, String password, String email, String nickname, String img) {
 		super();
 		this.userSeq = userSeq;
 		this.id = id;
@@ -57,7 +57,7 @@ public class User {
 		return nickname;
 	}
 
-	public void setNickame(String nickname) {
+	public void setNickname(String nickname) {
 		this.nickname = nickname;
 	}
 
@@ -68,5 +68,6 @@ public class User {
 	public void setImg(String img) {
 		this.img = img;
 	}
+
 
 }

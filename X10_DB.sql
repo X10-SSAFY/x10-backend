@@ -83,8 +83,6 @@ VALUES ('테니스'),
 ('축구'),
 ('홈트레이닝');
 
-INSERT INTO exercise (exercise_name)
-VALUES ('발야구');
 
 SELECT *
 FROM exercise;

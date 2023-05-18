@@ -17,4 +17,25 @@
 		SELECT user_seq as userSeq, id, password, email, nickname, img
 		FROM user
 	</select>
+	
+	<select id="idCheck" parameterType="String" resultType="int">
+		SELECT COUNT(*) FROM user
+		WHERE id=#{id}
+	</select>
+	
+	<select id="emailCheck" parameterType="String" resultType="int">
+		SELECT COUNT(*) FROM user
+		WHERE email=#{email}
+	</select>
+	
+	<update id="updatePassword" parameterType="hashMap">
+		UPDATE user
+		SET password=#{password}
+		WHERE user_seq=#{userSeq}
+	</update>
+	
+	<select id="passwordCheck" parameterType="hashMap" resultType="int">
+		SELECT COUNT(*) FROM user
+		WHERE user_seq=#{userSeq} AND password=#{password} 
+	</select>
 </mapper>
