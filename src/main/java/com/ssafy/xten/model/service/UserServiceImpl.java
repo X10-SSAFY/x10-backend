@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.xten.model.dao.UserDao;
 import com.ssafy.xten.model.dto.User;
@@ -18,6 +19,13 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public int signup(User user) {
+		MultipartFile file = user.getFile();
+		if (file != null && !file.isEmpty()) {
+			String changeName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+			user.setImg(changeName);
+			
+		}
+
 		return userDao.insertUser(user);
 	}
 
@@ -43,20 +51,20 @@ public class UserServiceImpl implements UserService {
 	public int emailCheck(String email) {
 		return userDao.emailCheck(email);
 	}
-	
+
 	@Override
 	public void changePassword(int userSeq, String newPassword) {
 		Map map = new HashMap();
-		map.put("userSeq",userSeq);
-		map.put("password",newPassword);
+		map.put("userSeq", userSeq);
+		map.put("password", newPassword);
 		userDao.updatePassword(map);
 	}
 
 	@Override
 	public int verifyPassword(int userSeq, String password) {
 		Map map = new HashMap();
-		map.put("userSeq",userSeq);
-		map.put("password",password);
+		map.put("userSeq", userSeq);
+		map.put("password", password);
 		return userDao.passwordCheck(map);
 	}
 }

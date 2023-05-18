@@ -1,5 +1,7 @@
 package com.ssafy.xten.model.dto;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class User {
 	private int userSeq;
 	private String id;
@@ -7,11 +9,13 @@ public class User {
 	private String email;
 	private String nickname; // 사용자 닉네임
 	private String img; // 사용자 프로필 이미지
+	private MultipartFile file; //사용자가 업로드한 
 
 	public User() {
 	}
 
-	public User(int userSeq, String id, String password, String email, String nickname, String img) {
+	public User(int userSeq, String id, String password, String email, String nickname, String img,
+			MultipartFile file) {
 		super();
 		this.userSeq = userSeq;
 		this.id = id;
@@ -19,6 +23,7 @@ public class User {
 		this.email = email;
 		this.nickname = nickname;
 		this.img = img;
+		this.file = file;
 	}
 
 	public int getUserSeq() {
@@ -68,6 +73,18 @@ public class User {
 	public void setImg(String img) {
 		this.img = img;
 	}
+
+	public MultipartFile getFile() {
+		return file;
+	}
+
+	public void setFile(MultipartFile file) {
+		this.file = file;
+	}
+	
+	
+	
+
 
 
 }
