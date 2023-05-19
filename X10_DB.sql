@@ -83,17 +83,8 @@ VALUES ('테니스'),
 ('축구'),
 ('홈트레이닝');
 
-
 SELECT *
 FROM exercise;
-
-INSERT INTO user (id, password, email, nickname, img)
-VALUES ('gowns0205' , 'ssafy1234', 'gowns0205@gmail.com', '멍게' , 'sdiofshjdiofsdhf'),
- ('gowns6413' , 'ssafy1234', 'gowns0205@gmail.com', '말미잘' , 'sdfsdfsdfsdfsdfsfs'),
- ('gowns7279' , 'ssafy1234', 'gowns0205@gmail.com', '홍삼' , 'sdfsdfsdfsdfsdfsfs'),
-	('gowns234234' , 'ssafy1234', 'gowns0205@gmail.com', '산삼' , 'sdfsdfsdfsdfsdfsfs'),
- ('gowns7234234' , 'ssafy1234', 'gowns0205@gmail.com', '당근' , 'sdfsdfsdfsdfsdfsfs')
-;
 
 SELECT *
 FROM user;

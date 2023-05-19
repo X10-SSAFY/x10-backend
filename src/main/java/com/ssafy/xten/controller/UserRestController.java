@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.xten.model.dto.User;
+import com.ssafy.xten.model.service.StorageService;
 import com.ssafy.xten.model.service.UserService;
 
 import io.swagger.annotations.Api;
@@ -28,6 +29,7 @@ public class UserRestController {
 
 	@Autowired
 	private UserService userService;
+	private StorageService storageService;
 
 	// 모든 사용자 조회
 	@ApiOperation(value = "가입된 모든 유저 조회", notes = "")
@@ -57,6 +59,7 @@ public class UserRestController {
 	@PostMapping("/signup")
 	public ResponseEntity<Integer> signup(User user) {
 		userService.signup(user);
+		storageService.store(user.getFile());
 		return new ResponseEntity<Integer>(HttpStatus.CREATED);
 	}
 

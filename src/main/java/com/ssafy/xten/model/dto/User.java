@@ -8,8 +8,8 @@ public class User {
 	private String password;
 	private String email;
 	private String nickname; // 사용자 닉네임
-	private String img; // 사용자 프로필 이미지
-	private MultipartFile file; //사용자가 업로드한 
+	private String img; // 중복 방지를 위해 새로 부여한 파일 이름
+	private MultipartFile file; //사용자가 업로드한 프로필 이미지 파일
 
 	public User() {
 	}
