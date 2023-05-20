@@ -1,5 +1,7 @@
 package com.ssafy.xten.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -7,13 +9,17 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.support.HttpAccessor;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.xten.model.dto.User;
 import com.ssafy.xten.model.service.StorageService;
@@ -21,6 +27,8 @@ import com.ssafy.xten.model.service.UserService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.models.media.MediaType;
+
 
 @RestController
 @RequestMapping("/api-user")
@@ -30,6 +38,13 @@ public class UserRestController {
 	@Autowired
 	private UserService userService;
 	private StorageService storageService;
+	
+	
+	@ApiOperation(value = "사용자 프로필 이미지 업로드", notes = "")
+	@PostMapping(value = "/upload", consumes = org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE)
+	public int imageUpload(@RequestPart("file") MultipartFile file) throws IOException{
+		return userService.addProfileImage(file);
+	}
 
 	// 모든 사용자 조회
 	@ApiOperation(value = "가입된 모든 유저 조회", notes = "")
@@ -57,10 +72,14 @@ public class UserRestController {
 	// 회원가입(form data 형식으로 넘어옴)
 	@ApiOperation(value = "회원가입", notes = "form data로 전달")
 	@PostMapping("/signup")
-	public ResponseEntity<Integer> signup(User user) {
+	public ResponseEntity<?> signup(User user) {
 		userService.signup(user);
-		storageService.store(user.getFile());
+		if(user.getFile()==null)
+			return new ResponseEntity<String>("no file", HttpStatus.NOT_FOUND);
+		else {
+			storageService.store(user.getFile());
 		return new ResponseEntity<Integer>(HttpStatus.CREATED);
+		}
 	}
 
 	// 로그인

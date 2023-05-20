@@ -1,5 +1,6 @@
 package com.ssafy.xten.model.service;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.xten.model.dao.UserDao;
+import com.ssafy.xten.model.dto.Image;
 import com.ssafy.xten.model.dto.User;
 
 @Service
@@ -66,5 +68,15 @@ public class UserServiceImpl implements UserService {
 		map.put("userSeq", userSeq);
 		map.put("password", password);
 		return userDao.passwordCheck(map);
+	}
+
+	@Override
+	public int addProfileImage(MultipartFile file) throws IOException {
+		Image img = new Image();
+		img.setMimetype(file.getContentType());
+		img.setOriginal_name(file.getOriginalFilename());
+		img.setData(file.getBytes());
+		userDao.insertImage(img);
+		return img.getImageSeq();
 	}
 }

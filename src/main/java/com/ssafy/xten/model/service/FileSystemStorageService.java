@@ -2,6 +2,7 @@ package com.ssafy.xten.model.service;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.nio.charset.MalformedInputException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -20,8 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class FileSystemStorageService implements StorageService {
 	
-	@Value("${spring.servlet.multipart.localtion}")
-	private String uploadPath;
+	private String uploadPath = "C:\\tmp";
 	
 	@Override
 	public void init() {

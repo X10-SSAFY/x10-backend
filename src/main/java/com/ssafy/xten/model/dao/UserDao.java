@@ -3,6 +3,7 @@ package com.ssafy.xten.model.dao;
 import java.util.List;
 import java.util.Map;
 
+import com.ssafy.xten.model.dto.Image;
 import com.ssafy.xten.model.dto.User;
 
 public interface UserDao {
@@ -21,5 +22,7 @@ public interface UserDao {
 	public void updatePassword(Map map);
 
 	public int passwordCheck(Map map);
+	
+	public void insertImage(Image image);
 
 }

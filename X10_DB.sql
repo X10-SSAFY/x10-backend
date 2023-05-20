@@ -91,6 +91,15 @@ FROM user;
 
 SELECT * FROM favorite_videos;
 
+create table image
+(
+    `image_seq`            int auto_increment PRIMARY KEY,
+    `mimetype`     varchar(100)                          null,
+    `data`          longblob                              null,
+    `original_name` varchar(100)                          null,
+    `created`       timestamp default current_timestamp() null
+);
+
 
 
 

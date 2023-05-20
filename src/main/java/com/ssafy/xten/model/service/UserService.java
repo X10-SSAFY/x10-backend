@@ -1,7 +1,11 @@
 package com.ssafy.xten.model.service;
 
+import java.io.IOException;
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
+import com.ssafy.xten.model.dto.Image;
 import com.ssafy.xten.model.dto.User;
 
 public interface UserService {
@@ -20,4 +24,7 @@ public interface UserService {
 	
 	//비밀번호 확인
 	public int verifyPassword(int userSeq, String password);
+	
+	//이미지 업로드
+	public int addProfileImage(MultipartFile file) throws IOException;
 }

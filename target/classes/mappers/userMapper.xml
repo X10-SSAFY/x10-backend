@@ -38,4 +38,9 @@
 		SELECT COUNT(*) FROM user
 		WHERE user_seq=#{userSeq} AND password=#{password} 
 	</select>
+	
+	<insert id="insertImage" parameterType="Image">
+		INSERT INTO image (mimetype, original_name, data)
+		VALUES(#{mimetype}, #{original_name}, #{data})
+	</insert>
 </mapper>
