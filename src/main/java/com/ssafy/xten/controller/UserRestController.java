@@ -10,26 +10,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.client.support.HttpAccessor;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.xten.model.dto.Image;
 import com.ssafy.xten.model.dto.User;
-import com.ssafy.xten.model.service.StorageService;
 import com.ssafy.xten.model.service.UserService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.v3.oas.models.media.MediaType;
 
 @RestController
 @RequestMapping("/api-user")
@@ -48,7 +43,7 @@ public class UserRestController {
 		return new ResponseEntity<Void>(HttpStatus.ACCEPTED);
 	}
 
-	// 프로필 이미지 불러오기
+	// 프로필 이미지 다운로드
 	@ApiOperation(value = "사용자 프로필 이미지 다운로드", notes = "user 일련번호 입력받아서 DB에서 찾음")
 	@GetMapping(value = "/download/{userSeq}")
 	public ResponseEntity<byte[]> imageDownload(@PathVariable int userSeq) {
