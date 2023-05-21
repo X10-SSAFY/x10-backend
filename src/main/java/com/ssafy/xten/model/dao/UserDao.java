@@ -23,6 +23,8 @@ public interface UserDao {
 
 	public int passwordCheck(Map map);
 	
-	public void insertImage(Image image);
+	public void insertImage(Map map);
+	
+	public Image selectImage(int userSeq);
 
 }

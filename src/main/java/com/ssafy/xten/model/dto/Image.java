@@ -2,49 +2,61 @@ package com.ssafy.xten.model.dto;
 
 public class Image {
 	private Integer imageSeq;
-	private String mimetype;
-	private String original_name;
-	private byte[] data;
-	private String created;
+	private String imageType;
+	private String imageName;
+	private byte[] imageData;
+	private String uploadDate;
+
 	public Image() {
 	}
-	public Image(Integer imageSeq, String mimetype, String original_name, byte[] data, String created) {
+
+	public Image(Integer imageSeq, String imageType, String imageName, byte[] imageData, String uploadDate) {
 		super();
 		this.imageSeq = imageSeq;
-		this.mimetype = mimetype;
-		this.original_name = original_name;
-		this.data = data;
-		this.created = created;
+		this.imageType = imageType;
+		this.imageName = imageName;
+		this.imageData = imageData;
+		this.uploadDate = uploadDate;
 	}
+
 	public Integer getImageSeq() {
 		return imageSeq;
 	}
+
 	public void setImageSeq(Integer imageSeq) {
 		this.imageSeq = imageSeq;
 	}
-	public String getMimetype() {
-		return mimetype;
+
+	public String getImageType() {
+		return imageType;
 	}
-	public void setMimetype(String mimetype) {
-		this.mimetype = mimetype;
+
+	public void setImageType(String imageType) {
+		this.imageType = imageType;
 	}
-	public String getOriginal_name() {
-		return original_name;
+
+	public String getImageName() {
+		return imageName;
 	}
-	public void setOriginal_name(String original_name) {
-		this.original_name = original_name;
+
+	public void setImageName(String imageName) {
+		this.imageName = imageName;
 	}
-	public byte[] getData() {
-		return data;
+
+	public byte[] getImageData() {
+		return imageData;
 	}
-	public void setData(byte[] data) {
-		this.data = data;
+
+	public void setImageData(byte[] imageData) {
+		this.imageData = imageData;
 	}
-	public String getCreated() {
-		return created;
+
+	public String getUploadDate() {
+		return uploadDate;
 	}
-	public void setCreated(String created) {
-		this.created = created;
+
+	public void setUploadDate(String uploadDate) {
+		this.uploadDate = uploadDate;
 	}
 
 }

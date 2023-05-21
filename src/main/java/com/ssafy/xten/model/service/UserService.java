@@ -9,6 +9,9 @@ import com.ssafy.xten.model.dto.Image;
 import com.ssafy.xten.model.dto.User;
 
 public interface UserService {
+	
+	public User getUser(String id);
+	
 	public int idCheck(String id);
 
 	public int emailCheck(String email);
@@ -26,5 +29,8 @@ public interface UserService {
 	public int verifyPassword(int userSeq, String password);
 	
 	//이미지 업로드
-	public int addProfileImage(MultipartFile file) throws IOException;
+	public void addProfileImage(int userSeq, MultipartFile file) throws IOException;
+	
+	//이미지 다운로드
+	public Image getProfileImage(int userSeq);
 }

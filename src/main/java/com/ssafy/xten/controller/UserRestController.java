@@ -7,6 +7,7 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.support.HttpAccessor;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ssafy.xten.model.dto.Image;
 import com.ssafy.xten.model.dto.User;
 import com.ssafy.xten.model.service.StorageService;
 import com.ssafy.xten.model.service.UserService;
@@ -29,7 +31,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.models.media.MediaType;
 
-
 @RestController
 @RequestMapping("/api-user")
 @Api(tags = "User 컨트롤러")
@@ -37,13 +38,42 @@ public class UserRestController {
 
 	@Autowired
 	private UserService userService;
-	private StorageService storageService;
-	
-	
+
+	// 프로필 이미지 업로드
 	@ApiOperation(value = "사용자 프로필 이미지 업로드", notes = "")
-	@PostMapping(value = "/upload", consumes = org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE)
-	public int imageUpload(@RequestPart("file") MultipartFile file) throws IOException{
-		return userService.addProfileImage(file);
+	@PostMapping(value = "/upload/{userSeq}", consumes = org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE)
+	public ResponseEntity<?> imageUpload(@RequestPart("file") MultipartFile file, @PathVariable int userSeq)
+			throws IOException {
+		userService.addProfileImage(userSeq, file);
+		return new ResponseEntity<Void>(HttpStatus.ACCEPTED);
+	}
+
+	// 프로필 이미지 불러오기
+	@ApiOperation(value = "사용자 프로필 이미지 다운로드", notes = "user 일련번호 입력받아서 DB에서 찾음")
+	@GetMapping(value = "/download/{userSeq}")
+	public ResponseEntity<byte[]> imageDownload(@PathVariable int userSeq) {
+		Image image = userService.getProfileImage(userSeq);
+		HttpHeaders headers= new HttpHeaders();
+		headers.add("Content-Type", image.getImageType());
+		headers.add("Content-Length", String.valueOf(image.getImageData().length));
+		return new ResponseEntity<byte[]>(image.getImageData(),headers,HttpStatus.OK);
+	}
+
+	// 회원가입(form data 형식으로 넘어옴)
+	@ApiOperation(value = "회원가입", notes = "form data로 전달")
+	@PostMapping(value = "/signup", consumes = org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE)
+	public ResponseEntity<?> signup(@RequestPart(value = "file", required = false) MultipartFile file, User user)
+			throws IOException {
+		userService.signup(user);
+		if (file != null) {
+			System.out.println(user.getId());
+			int userSeq = userService.getUser(user.getId()).getUserSeq();
+			userService.addProfileImage(userSeq, file);
+			return new ResponseEntity<Void>(HttpStatus.CREATED);
+		} else {
+			System.out.println("파일 업로드 작동 안하는중");
+			return new ResponseEntity<Void>(HttpStatus.CREATED);
+		}
 	}
 
 	// 모든 사용자 조회
@@ -67,19 +97,6 @@ public class UserRestController {
 	public int emailCheck(@PathVariable String email) {
 		int result = userService.emailCheck(email);
 		return result;
-	}
-
-	// 회원가입(form data 형식으로 넘어옴)
-	@ApiOperation(value = "회원가입", notes = "form data로 전달")
-	@PostMapping("/signup")
-	public ResponseEntity<?> signup(User user) {
-		userService.signup(user);
-		if(user.getFile()==null)
-			return new ResponseEntity<String>("no file", HttpStatus.NOT_FOUND);
-		else {
-			storageService.store(user.getFile());
-		return new ResponseEntity<Integer>(HttpStatus.CREATED);
-		}
 	}
 
 	// 로그인
@@ -107,11 +124,11 @@ public class UserRestController {
 	@ApiOperation(value = "비밀번호 확인", notes = "비밀번호가 틀리면 0, 맞으면 1 반환")
 	@GetMapping("/password/{userSeq}/{password}")
 	public int verifyPassword(@PathVariable int userSeq, @PathVariable String password) {
-		return userService.verifyPassword(userSeq,password);
+		return userService.verifyPassword(userSeq, password);
 	}
 
 	// 비밀번호 변경
-	@ApiOperation(value = "비밀번호 변경", notes= "유저 일련번호, 새 비밀번호 입력 받음")
+	@ApiOperation(value = "비밀번호 변경", notes = "유저 일련번호, 새 비밀번호 입력 받음")
 	@PutMapping("/password/{userSeq}/{newPassword}")
 	public ResponseEntity<Void> changePassword(@PathVariable int userSeq, @PathVariable String newPassword) {
 		userService.changePassword(userSeq, newPassword);

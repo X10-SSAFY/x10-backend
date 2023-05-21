@@ -21,13 +21,6 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public int signup(User user) {
-		MultipartFile file = user.getFile();
-		if (file != null && !file.isEmpty()) {
-			String changeName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
-			user.setImg(changeName);
-			
-		}
-
 		return userDao.insertUser(user);
 	}
 
@@ -71,12 +64,24 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public int addProfileImage(MultipartFile file) throws IOException {
+	public void addProfileImage(int userSeq, MultipartFile file) throws IOException {
 		Image img = new Image();
-		img.setMimetype(file.getContentType());
-		img.setOriginal_name(file.getOriginalFilename());
-		img.setData(file.getBytes());
-		userDao.insertImage(img);
-		return img.getImageSeq();
+		img.setImageType(file.getContentType());
+		img.setImageName(file.getOriginalFilename());
+		img.setImageData(file.getBytes());
+		Map map = new HashMap();
+		map.put("userSeq", userSeq);
+		map.put("Image", img);
+		userDao.insertImage(map);
+	}
+
+	@Override
+	public User getUser(String id) {
+		return userDao.selectOne(id);
+	}
+
+	@Override
+	public Image getProfileImage(int userSeq) {
+		return userDao.selectImage(userSeq);
 	}
 }
