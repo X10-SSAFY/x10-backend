@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
@@ -115,7 +116,7 @@ public class UserRestController {
 	// 로그인
 	@ApiOperation(value = "로그인", notes = "로그인 성공하면 닉네임 반환")
 	@PostMapping("/login")
-	public ResponseEntity<?> login(User user, HttpSession session) {
+	public ResponseEntity<?> login(@RequestBody User user, HttpSession session) {
 		User tmp = userService.login(user.getId(), user.getPassword());
 		if (tmp == null) {
 			return new ResponseEntity<Void>(HttpStatus.UNAUTHORIZED);
