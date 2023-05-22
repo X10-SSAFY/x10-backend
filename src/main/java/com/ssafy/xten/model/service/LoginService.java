@@ -2,7 +2,6 @@ package com.ssafy.xten.model.service;
  
 import com.fasterxml.jackson.databind.JsonNode;
 import com.ssafy.xten.model.dto.User;
-import com.ssafy.xten.model.dto.UserResource;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.env.Environment;
@@ -85,7 +84,7 @@ public class LoginService {
 
     private JsonNode getUserResource(String accessToken, String registrationId) {
         String resourceUri = env.getProperty("oauth2."+registrationId+".resource-uri");
-
+        System.out.println(resourceUri);
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + accessToken);
         HttpEntity entity = new HttpEntity(headers);
