@@ -35,7 +35,7 @@ public class UserRestController {
 	@Autowired
 	private UserService userService;
 	
-	// 로그인
+	// user 객체 찾기
 	@ApiOperation(value = "user 객체 찾기", notes = "user 일련번호 입력받아서 user 반환")
 	@PostMapping("/{userSeq}")
 	public ResponseEntity<?> getUser(@PathVariable int userSeq) {
