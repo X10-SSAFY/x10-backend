@@ -84,4 +84,9 @@ public class UserServiceImpl implements UserService {
 	public Image getProfileImage(int userSeq) {
 		return userDao.selectImage(userSeq);
 	}
+
+	@Override
+	public void removeProfileImage(int userSeq) {
+		userDao.deleteImage(userSeq);
+	}
 }

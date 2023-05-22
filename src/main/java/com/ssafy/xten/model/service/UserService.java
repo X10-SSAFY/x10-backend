@@ -33,4 +33,7 @@ public interface UserService {
 	
 	//이미지 다운로드
 	public Image getProfileImage(int userSeq);
+	
+	//이미지 삭제
+	public void removeProfileImage(int userSeq);
 }

@@ -26,5 +26,7 @@ public interface UserDao {
 	public void insertImage(Map map);
 	
 	public Image selectImage(int userSeq);
+	
+	public void deleteImage(int userSeq);
 
 }

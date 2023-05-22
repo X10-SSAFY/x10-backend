@@ -35,10 +35,20 @@ public class UserRestController {
 	private UserService userService;
 
 	// 프로필 이미지 업로드
-	@ApiOperation(value = "사용자 프로필 이미지 업로드", notes = "")
+	@ApiOperation(value = "사용자 프로필 이미지 업로드", notes = "user 일련번호, 이미지 파일 입력받음")
 	@PostMapping(value = "/upload/{userSeq}", consumes = org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ResponseEntity<?> imageUpload(@RequestPart("file") MultipartFile file, @PathVariable int userSeq)
 			throws IOException {
+		userService.addProfileImage(userSeq, file);
+		return new ResponseEntity<Void>(HttpStatus.ACCEPTED);
+	}
+	
+	// 프로필 이미지 변경
+	@ApiOperation(value = "사용자 프로필 이미지 변경", notes = "유저 일련번호 받아서 삭제하고 다시 업로드")
+	@PostMapping(value = "/change/{userSeq}", consumes = org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE)
+	public ResponseEntity<?> imageChange(@RequestPart("file") MultipartFile file, @PathVariable int userSeq)
+			throws IOException {
+		userService.removeProfileImage(userSeq);
 		userService.addProfileImage(userSeq, file);
 		return new ResponseEntity<Void>(HttpStatus.ACCEPTED);
 	}

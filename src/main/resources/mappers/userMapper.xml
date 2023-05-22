@@ -49,4 +49,9 @@
 	 	FROM image
 	 	WHERE user_seq=#{userSeq}
 	</select>
+	
+	<delete id="deleteImage" parameterType="int">
+		DELETE FROM image
+		WHERE user_seq=#{userSeq}
+	</delete>
 </mapper>
