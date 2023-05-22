@@ -97,4 +97,9 @@ public class UserServiceImpl implements UserService {
 		map.put("User", user);
 		userDao.updateUser(map);
 	}
+
+	@Override
+	public User getUserBySeq(int userSeq) {
+		return userDao.selectOneBySeq(userSeq);
+	}
 }

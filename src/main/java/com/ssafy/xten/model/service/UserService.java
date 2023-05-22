@@ -38,4 +38,6 @@ public interface UserService {
 	public void removeProfileImage(int userSeq);
 
 	public void editUser(int userSeq, User user);
+
+	public User getUserBySeq(int userSeq);
 }

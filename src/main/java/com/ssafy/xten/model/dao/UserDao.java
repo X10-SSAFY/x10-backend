@@ -17,6 +17,8 @@ public interface UserDao {
 
 	public User selectOne(String id); // 로그인을 위해
 	
+	public User selectOneBySeq(int userSeq); // 로그인을 위해
+	
 	public List<User> selectAllUser();
 
 	public void updatePassword(Map map);

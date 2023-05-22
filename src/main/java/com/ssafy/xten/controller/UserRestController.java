@@ -34,6 +34,14 @@ public class UserRestController {
 
 	@Autowired
 	private UserService userService;
+	
+	// 로그인
+	@ApiOperation(value = "user 객체 찾기", notes = "user 일련번호 입력받아서 user 반환")
+	@PostMapping("/{userSeq}")
+	public ResponseEntity<?> getUser(@PathVariable int userSeq) {
+		User user = userService.getUserBySeq(userSeq);
+		return new ResponseEntity<User>(user, HttpStatus.OK);
+	}
 
 	// 프로필 이미지 업로드
 	@ApiOperation(value = "사용자 프로필 이미지 업로드", notes = "user 일련번호, 이미지 파일 입력받음")
@@ -114,7 +122,7 @@ public class UserRestController {
 	}
 
 	// 로그인
-	@ApiOperation(value = "로그인", notes = "로그인 성공하면 닉네임 반환")
+	@ApiOperation(value = "로그인", notes = "로그인 성공하면 유저 일련번호 반환")
 	@PostMapping("/login")
 	public ResponseEntity<?> login(@RequestBody User user, HttpSession session) {
 		User tmp = userService.login(user.getId(), user.getPassword());
@@ -122,7 +130,8 @@ public class UserRestController {
 			return new ResponseEntity<Void>(HttpStatus.UNAUTHORIZED);
 		}
 		session.setAttribute("loginUser", tmp);
-		return new ResponseEntity<String>(tmp.getNickname(), HttpStatus.OK);
+		User u = userService.getUser(user.getId());
+		return new ResponseEntity<Integer>(u.getUserSeq(), HttpStatus.OK);
 	}
 
 	// 로그아웃

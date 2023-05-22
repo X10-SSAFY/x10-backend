@@ -60,4 +60,10 @@
 		SET password=#{User.password}, email=#{User.email}, nickname=#{User.nickname}
 		WHERE user_seq=#{userSeq}
 	</update>
+	
+	<select id="selectOneBySeq" parameterType="int" resultType="User">
+		SELECT user_seq as userSeq, id, password, email, nickname
+		FROM user
+		WHERE user_seq=#{userSeq}
+	</select>
 </mapper>
