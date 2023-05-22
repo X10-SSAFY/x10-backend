@@ -66,4 +66,10 @@
 		FROM user
 		WHERE user_seq=#{userSeq}
 	</select>
+	
+	<select id="selectOneByEmail" parameterType="String" resultType="User">
+		SELECT user_seq as userSeq, id, password, email, nickname
+		FROM user
+		WHERE email=#{email}
+	</select>
 </mapper>

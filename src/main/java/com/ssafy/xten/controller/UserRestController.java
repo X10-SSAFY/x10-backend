@@ -10,18 +10,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.xten.model.dto.Image;
 import com.ssafy.xten.model.dto.User;
+import com.ssafy.xten.model.service.LoginService;
 import com.ssafy.xten.model.service.UserService;
 
 import io.swagger.annotations.Api;
@@ -34,13 +37,57 @@ public class UserRestController {
 
 	@Autowired
 	private UserService userService;
-	
+
+	@Autowired
+	private LoginService loginService;
+
 	// user 객체 찾기
 	@ApiOperation(value = "user 객체 찾기", notes = "user 일련번호 입력받아서 user 반환")
 	@PostMapping("/{userSeq}")
 	public ResponseEntity<?> getUser(@PathVariable int userSeq) {
 		User user = userService.getUserBySeq(userSeq);
 		return new ResponseEntity<User>(user, HttpStatus.OK);
+	}
+	
+	// 소셜 로그인
+	@ApiOperation(value = "소셜 로그인", notes = "DB에 없는 email이면 가입시키고 로그인, 있으면 바로 로그인. 로그인 성공하면 유저 일련번호 반환")
+	@GetMapping("/login/oauth2/{registrationId}")
+	public ResponseEntity<?> socialLogin(@RequestParam String code, @PathVariable String registrationId, HttpSession session) {
+		User tmp = loginService.socialLogin(code, registrationId);
+		// 소셜로그인 처음하는 회원이면 가입시키고 로그인
+		if(emailCheck(tmp.getEmail())==0){
+			userService.signup(tmp);
+			User user = userService.getUserByEmail(tmp.getEmail());
+			session.setAttribute("loginUser", user);
+			return new ResponseEntity<Integer>(user.getUserSeq(), HttpStatus.OK);
+		}
+		// 처음 아니면 바로 로그인
+		else {
+			User user = userService.getUserByEmail(tmp.getEmail());
+			session.setAttribute("loginUser", user);
+			return new ResponseEntity<Integer>(user.getUserSeq(), HttpStatus.OK);
+		}
+	}
+	
+	// 일반 로그인
+	@ApiOperation(value = "일반 로그인", notes = "로그인 성공하면 유저 일련번호 반환")
+	@PostMapping("/login")
+	public ResponseEntity<?> login(@RequestBody User user, HttpSession session) {
+		User tmp = userService.login(user.getId(), user.getPassword());
+		if (tmp == null) {
+			return new ResponseEntity<Void>(HttpStatus.UNAUTHORIZED);
+		}
+		session.setAttribute("loginUser", tmp);
+		User u = userService.getUser(user.getId());
+		return new ResponseEntity<Integer>(u.getUserSeq(), HttpStatus.OK);
+	}
+	
+	// 로그아웃
+	@ApiOperation(value = "로그아웃", notes = "")
+	@GetMapping("/logout")
+	public ResponseEntity<Void> logout(HttpSession session) {
+		session.invalidate();
+		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 
 	// 프로필 이미지 업로드
@@ -91,6 +138,7 @@ public class UserRestController {
 	}
 
 	// 회원정보 수정(form data 형식으로 넘어옴)
+	@CrossOrigin(origins="http://localhost:8080")
 	@ApiOperation(value = "회원정보 수정", notes = "비밀번호, 이메일, 닉네임을 form data 형태로 전달")
 	@PutMapping(value = "/edit/{userSeq}")
 	public ResponseEntity<?> edit(@PathVariable int userSeq, User user) {
@@ -121,27 +169,6 @@ public class UserRestController {
 		return result;
 	}
 
-	// 로그인
-	@ApiOperation(value = "로그인", notes = "로그인 성공하면 유저 일련번호 반환")
-	@PostMapping("/login")
-	public ResponseEntity<?> login(@RequestBody User user, HttpSession session) {
-		User tmp = userService.login(user.getId(), user.getPassword());
-		if (tmp == null) {
-			return new ResponseEntity<Void>(HttpStatus.UNAUTHORIZED);
-		}
-		session.setAttribute("loginUser", tmp);
-		User u = userService.getUser(user.getId());
-		return new ResponseEntity<Integer>(u.getUserSeq(), HttpStatus.OK);
-	}
-
-	// 로그아웃
-	@ApiOperation(value = "로그아웃", notes = "")
-	@GetMapping("/logout")
-	public ResponseEntity<Void> logout(HttpSession session) {
-//		session.removeAttribute("loginUser");
-		session.invalidate();
-		return new ResponseEntity<Void>(HttpStatus.OK);
-	}
 
 	// 비밀번호 확인
 	@ApiOperation(value = "비밀번호 확인", notes = "비밀번호가 틀리면 0, 맞으면 1 반환")
@@ -157,4 +184,5 @@ public class UserRestController {
 		userService.changePassword(userSeq, newPassword);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
+
 }

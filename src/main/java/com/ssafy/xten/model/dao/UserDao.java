@@ -19,6 +19,8 @@ public interface UserDao {
 	
 	public User selectOneBySeq(int userSeq); // 로그인을 위해
 	
+	public User selectOneByEmail(String email); // 소셜로그인을 위해
+	
 	public List<User> selectAllUser();
 
 	public void updatePassword(Map map);

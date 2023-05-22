@@ -5,9 +5,9 @@ USE xtendb;
 
 CREATE TABLE `user` (
 	`user_seq`	INT	NOT NULL ,
-	`id`	VARCHAR(20)	NOT NULL,
-	`password`	VARCHAR(20)	NULL	COMMENT '소셜로그인 할 경우에는 가져오지 않음',
-	`email`	VARCHAR(50)	NULL	COMMENT '소셜로그인 할 경우에는 이 필드 지우고  sns id로 조회',
+	`id`	VARCHAR(20)	NULL,
+	`password`	VARCHAR(20)	NULL,
+	`email`	VARCHAR(50)	NULL,
 	`nickname`	VARCHAR(50)	NOT NULL
 );
 

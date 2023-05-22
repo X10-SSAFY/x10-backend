@@ -40,4 +40,7 @@ public interface UserService {
 	public void editUser(int userSeq, User user);
 
 	public User getUserBySeq(int userSeq);
+
+	public User getUserByEmail(String email);
+	
 }

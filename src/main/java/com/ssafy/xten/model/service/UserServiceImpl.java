@@ -102,4 +102,10 @@ public class UserServiceImpl implements UserService {
 	public User getUserBySeq(int userSeq) {
 		return userDao.selectOneBySeq(userSeq);
 	}
+
+	@Override
+	public User getUserByEmail(String email) {
+		return userDao.selectOneByEmail(email);
+	}
+
 }
