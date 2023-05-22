@@ -42,7 +42,7 @@ public class UserRestController {
 		userService.addProfileImage(userSeq, file);
 		return new ResponseEntity<Void>(HttpStatus.ACCEPTED);
 	}
-	
+
 	// 프로필 이미지 변경
 	@ApiOperation(value = "사용자 프로필 이미지 변경", notes = "유저 일련번호 받아서 삭제하고 다시 업로드")
 	@PostMapping(value = "/change/{userSeq}", consumes = org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -58,10 +58,10 @@ public class UserRestController {
 	@GetMapping(value = "/download/{userSeq}")
 	public ResponseEntity<byte[]> imageDownload(@PathVariable int userSeq) {
 		Image image = userService.getProfileImage(userSeq);
-		HttpHeaders headers= new HttpHeaders();
+		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-Type", image.getImageType());
 		headers.add("Content-Length", String.valueOf(image.getImageData().length));
-		return new ResponseEntity<byte[]>(image.getImageData(),headers,HttpStatus.OK);
+		return new ResponseEntity<byte[]>(image.getImageData(), headers, HttpStatus.OK);
 	}
 
 	// 회원가입(form data 형식으로 넘어옴)
@@ -79,6 +79,14 @@ public class UserRestController {
 			System.out.println("파일 업로드 작동 안하는중");
 			return new ResponseEntity<Void>(HttpStatus.CREATED);
 		}
+	}
+
+	// 회원정보 수정(form data 형식으로 넘어옴)
+	@ApiOperation(value = "회원정보 수정", notes = "비밀번호, 이메일, 닉네임을 form data 형태로 전달")
+	@PutMapping(value = "/edit/{userSeq}")
+	public ResponseEntity<?> edit(@PathVariable int userSeq, User user) {
+		userService.editUser(userSeq, user);
+		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 
 	// 모든 사용자 조회

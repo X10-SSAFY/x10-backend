@@ -36,4 +36,6 @@ public interface UserService {
 	
 	//이미지 삭제
 	public void removeProfileImage(int userSeq);
+
+	public void editUser(int userSeq, User user);
 }

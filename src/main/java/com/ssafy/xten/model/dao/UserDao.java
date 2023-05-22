@@ -29,4 +29,6 @@ public interface UserDao {
 	
 	public void deleteImage(int userSeq);
 
+	public void updateUser(Map map);
+
 }

@@ -1,3 +1,4 @@
+DROP DATABASE xtendb;
 CREATE DATABASE xtendb;
 
 USE xtendb;
@@ -19,8 +20,7 @@ CREATE TABLE `test_result` (
 
 CREATE TABLE `exercise` (
 	`exercise_seq`	INT	NOT NULL,
-	`exercise_name`	VARCHAR(20)	NOT NULL,
-	`exercise_image`	VARCHAR(200)	NULL
+	`exercise_name`	VARCHAR(20)	NOT NULL
 );
 
 CREATE TABLE `favorite_exercises` (

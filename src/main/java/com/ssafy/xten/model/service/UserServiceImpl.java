@@ -89,4 +89,12 @@ public class UserServiceImpl implements UserService {
 	public void removeProfileImage(int userSeq) {
 		userDao.deleteImage(userSeq);
 	}
+
+	@Override
+	public void editUser(int userSeq, User user) {
+		Map map = new HashMap();
+		map.put("userSeq", userSeq);
+		map.put("User", user);
+		userDao.updateUser(map);
+	}
 }

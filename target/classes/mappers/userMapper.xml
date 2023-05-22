@@ -54,4 +54,10 @@
 		DELETE FROM image
 		WHERE user_seq=#{userSeq}
 	</delete>
+	
+	<update id="updateUser" parameterType="HashMap">
+		UPDATE user
+		SET password=#{User.password}, email=#{User.email}, nickname=#{User.nickname}
+		WHERE user_seq=#{userSeq}
+	</update>
 </mapper>
