@@ -89,16 +89,21 @@ public class XtenRestController {
 	
 	// 찜한영상에 추가
 	@ApiOperation(value = "찜한 영상 목록에 추가", notes = "유저 일련번호, 비디오url 입력해서 추가")
-	@PostMapping("/xten/favoritevideos/{userSeq}/{videoUrl}/{videoTitle}")
-	public ResponseEntity<?> addFavoriteVideos(@PathVariable int userSeq, @PathVariable String videoUrl, @PathVariable String videoTitle) {
+	@PostMapping("/xten/favoritevideos")
+	public ResponseEntity<?> addFavoriteVideos(FavoriteVideos fv) {
+		int userSeq = fv.getUserSeq();
+		String videoUrl = fv.getVideoUrl();
+		String videoTitle= fv.getVideoTitle();
 		xtenService.addFavoriteVideos(userSeq, videoUrl, videoTitle);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 
 	// 찜한영상에서 삭제
 	@ApiOperation(value = "찜한 영상 목록에서 삭제 ", notes = "유저 일련번호, 찜한 영상 일련번호 입력해서 삭제")
-	@DeleteMapping("/xten/favoritevideos/{userSeq}/{videoUrl}")
-	public ResponseEntity<?> removeFavoriteVideos(@PathVariable int userSeq, @PathVariable String videoUrl) {
+	@DeleteMapping("/xten/favoritevideos")
+	public ResponseEntity<?> removeFavoriteVideos(FavoriteVideos fv) {
+		int userSeq = fv.getUserSeq();
+		String videoUrl = fv.getVideoUrl();
 		xtenService.removeFavoriteVideos(userSeq, videoUrl);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
