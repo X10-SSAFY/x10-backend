@@ -1,6 +1,5 @@
 package com.ssafy.xten.controller;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -41,85 +40,6 @@ public class UserRestController {
 	@Autowired
 	private LoginService loginService;
 
-	// user 객체 찾기
-	@ApiOperation(value = "user 객체 찾기", notes = "user 일련번호 입력받아서 user 반환")
-	@PostMapping("/{userSeq}")
-	public ResponseEntity<?> getUser(@PathVariable int userSeq) {
-		User user = userService.getUserBySeq(userSeq);
-		return new ResponseEntity<User>(user, HttpStatus.OK);
-	}
-	
-	// 소셜 로그인
-	@ApiOperation(value = "소셜 로그인", notes = "DB에 없는 email이면 가입시키고 로그인, 있으면 바로 로그인. 로그인 성공하면 유저 일련번호 반환")
-	@GetMapping("/login/oauth2/{registrationId}")
-	public ResponseEntity<?> socialLogin(@RequestParam String code, @PathVariable String registrationId, HttpSession session) {
-		User tmp = loginService.socialLogin(code, registrationId);
-		// 소셜로그인 처음하는 회원이면 가입시키고 로그인
-		if(emailCheck(tmp.getEmail())==0){
-			userService.signup(tmp);
-			User user = userService.getUserByEmail(tmp.getEmail());
-			session.setAttribute("loginUser", user);
-			return new ResponseEntity<Integer>(user.getUserSeq(), HttpStatus.OK);
-		}
-		// 처음 아니면 바로 로그인
-		else {
-			User user = userService.getUserByEmail(tmp.getEmail());
-			session.setAttribute("loginUser", user);
-			return new ResponseEntity<Integer>(user.getUserSeq(), HttpStatus.OK);
-		}
-	}
-	
-	// 일반 로그인
-	@ApiOperation(value = "일반 로그인", notes = "로그인 성공하면 유저 일련번호 반환")
-	@PostMapping("/login")
-	public ResponseEntity<?> login(@RequestBody User user, HttpSession session) {
-		User tmp = userService.login(user.getId(), user.getPassword());
-		if (tmp == null) {
-			return new ResponseEntity<Void>(HttpStatus.UNAUTHORIZED);
-		}
-		session.setAttribute("loginUser", tmp);
-		User u = userService.getUser(user.getId());
-		return new ResponseEntity<Integer>(u.getUserSeq(), HttpStatus.OK);
-	}
-	
-	// 로그아웃
-	@ApiOperation(value = "로그아웃", notes = "")
-	@GetMapping("/logout")
-	public ResponseEntity<Void> logout(HttpSession session) {
-		session.invalidate();
-		return new ResponseEntity<Void>(HttpStatus.OK);
-	}
-
-	// 프로필 이미지 업로드
-	@ApiOperation(value = "사용자 프로필 이미지 업로드", notes = "user 일련번호, 이미지 파일 입력받음")
-	@PostMapping(value = "/upload/{userSeq}", consumes = org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE)
-	public ResponseEntity<?> imageUpload(@RequestPart("file") MultipartFile file, @PathVariable int userSeq)
-			throws IOException {
-		userService.addProfileImage(userSeq, file);
-		return new ResponseEntity<Void>(HttpStatus.ACCEPTED);
-	}
-
-	// 프로필 이미지 변경
-	@ApiOperation(value = "사용자 프로필 이미지 변경", notes = "유저 일련번호 받아서 삭제하고 다시 업로드")
-	@PostMapping(value = "/change/{userSeq}", consumes = org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE)
-	public ResponseEntity<?> imageChange(@RequestPart("file") MultipartFile file, @PathVariable int userSeq)
-			throws IOException {
-		userService.removeProfileImage(userSeq);
-		userService.addProfileImage(userSeq, file);
-		return new ResponseEntity<Void>(HttpStatus.ACCEPTED);
-	}
-
-	// 프로필 이미지 다운로드
-	@ApiOperation(value = "사용자 프로필 이미지 다운로드", notes = "user 일련번호 입력받아서 DB에서 찾음")
-	@GetMapping(value = "/download/{userSeq}")
-	public ResponseEntity<byte[]> imageDownload(@PathVariable int userSeq) {
-		Image image = userService.getProfileImage(userSeq);
-		HttpHeaders headers = new HttpHeaders();
-		headers.add("Content-Type", image.getImageType());
-		headers.add("Content-Length", String.valueOf(image.getImageData().length));
-		return new ResponseEntity<byte[]>(image.getImageData(), headers, HttpStatus.OK);
-	}
-
 	// 회원가입(form data 형식으로 넘어옴)
 	@ApiOperation(value = "회원가입", notes = "form data로 전달")
 	@PostMapping(value = "/signup", consumes = org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -137,8 +57,90 @@ public class UserRestController {
 		}
 	}
 
+	// user 객체 찾기
+	@ApiOperation(value = "user 객체 찾기", notes = "user 일련번호 입력받아서 user 객체 반환")
+	@PostMapping("/{userSeq}")
+	public ResponseEntity<?> getUser(@PathVariable int userSeq) {
+		User user = userService.getUserBySeq(userSeq);
+		return new ResponseEntity<User>(user, HttpStatus.OK);
+	}
+
+	// 일반 로그인
+	@ApiOperation(value = "일반 로그인", notes = "로그인 성공하면 유저 일련번호 반환")
+	@PostMapping("/login")
+	public ResponseEntity<?> login(@RequestBody User user, HttpSession session) {
+		User tmp = loginService.normalLogin(user.getId(), user.getPassword());
+		if (tmp == null) {
+			return new ResponseEntity<Void>(HttpStatus.UNAUTHORIZED);
+		}
+		session.setAttribute("loginUser", tmp);
+		User u = userService.getUser(user.getId());
+		return new ResponseEntity<Integer>(u.getUserSeq(), HttpStatus.OK);
+	}
+
+	// 소셜 로그인
+	@ApiOperation(value = "소셜 로그인", notes = "DB에 없는 email이면 가입시키고 로그인, 있으면 바로 로그인. 로그인 성공하면 유저 일련번호 반환. registrationId = google or kakao or naver")
+	@GetMapping("/login/oauth2/{registrationId}")
+	public ResponseEntity<?> socialLogin(@RequestParam String code, @PathVariable String registrationId,
+			HttpSession session) {
+		User tmp = loginService.socialLogin(code, registrationId);
+		// 소셜로그인 처음하는 회원이면 가입시키고 로그인
+		if (emailCheck(tmp.getEmail()) == 0) {
+			userService.signup(tmp);
+			User user = userService.getUserByEmail(tmp.getEmail());
+			session.setAttribute("loginUser", user);
+			return new ResponseEntity<Integer>(user.getUserSeq(), HttpStatus.OK);
+		}
+		// 처음 아니면 바로 로그인
+		else {
+			User user = userService.getUserByEmail(tmp.getEmail());
+			session.setAttribute("loginUser", user);
+			return new ResponseEntity<Integer>(user.getUserSeq(), HttpStatus.OK);
+		}
+	}
+
+	// 로그아웃
+	@ApiOperation(value = "로그아웃", notes = "")
+	@GetMapping("/logout")
+	public ResponseEntity<Void> logout(HttpSession session) {
+		session.invalidate();
+		return new ResponseEntity<Void>(HttpStatus.OK);
+	}
+
+	// 프로필 이미지 업로드
+	@ApiOperation(value = "사용자 프로필 이미지 업로드", notes = "user 일련번호, 이미지 파일 입력받음")
+	@PostMapping(value = "/upload/{userSeq}", consumes = org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE)
+	public ResponseEntity<?> imageUpload(@RequestPart("file") MultipartFile file, @PathVariable int userSeq)
+			throws IOException {
+		userService.addProfileImage(userSeq, file);
+		return new ResponseEntity<Void>(HttpStatus.ACCEPTED);
+	}
+
+	// 프로필 이미지 다운로드
+	@ApiOperation(value = "사용자 프로필 이미지 다운로드", notes = "user 일련번호 입력받아서 DB에서 찾음")
+	@GetMapping(value = "/download/{userSeq}")
+	public ResponseEntity<?> imageDownload(@PathVariable int userSeq) {
+		Image image = userService.getProfileImage(userSeq);
+		if (image == null)
+			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Content-Type", image.getImageType());
+		headers.add("Content-Length", String.valueOf(image.getImageData().length));
+		return new ResponseEntity<byte[]>(image.getImageData(), headers, HttpStatus.OK);
+	}
+
+	// 프로필 이미지 변경
+	@ApiOperation(value = "사용자 프로필 이미지 변경", notes = "유저 일련번호 받아서 삭제하고 다시 업로드")
+	@PostMapping(value = "/change/{userSeq}", consumes = org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE)
+	public ResponseEntity<?> imageChange(@RequestPart("file") MultipartFile file, @PathVariable int userSeq)
+			throws IOException {
+		userService.removeProfileImage(userSeq);
+		userService.addProfileImage(userSeq, file);
+		return new ResponseEntity<Void>(HttpStatus.ACCEPTED);
+	}
+
 	// 회원정보 수정(form data 형식으로 넘어옴)
-	@CrossOrigin(origins="http://localhost:8080")
+	@CrossOrigin(origins = "http://localhost:8080")
 	@ApiOperation(value = "회원정보 수정", notes = "비밀번호, 이메일, 닉네임을 form data 형태로 전달")
 	@PutMapping(value = "/edit/{userSeq}")
 	public ResponseEntity<?> edit(@PathVariable int userSeq, User user) {
@@ -168,7 +170,6 @@ public class UserRestController {
 		int result = userService.emailCheck(email);
 		return result;
 	}
-
 
 	// 비밀번호 확인
 	@ApiOperation(value = "비밀번호 확인", notes = "비밀번호가 틀리면 0, 맞으면 1 반환")

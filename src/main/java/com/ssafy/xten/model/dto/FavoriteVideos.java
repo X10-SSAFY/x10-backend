@@ -4,12 +4,17 @@ public class FavoriteVideos {
 	private int favoriteVideosSeq;
 	private int userSeq;
 	private String videoUrl;
+	private String videoTitle;
 
-	public FavoriteVideos(int favoriteVideosSeq, int userSeq, String videoUrl) {
+	public FavoriteVideos() {
+	}
+
+	public FavoriteVideos(int favoriteVideosSeq, int userSeq, String videoUrl, String videoTitle) {
 		super();
 		this.favoriteVideosSeq = favoriteVideosSeq;
 		this.userSeq = userSeq;
 		this.videoUrl = videoUrl;
+		this.videoTitle = videoTitle;
 	}
 
 	public int getFavoriteVideosSeq() {
@@ -36,13 +41,17 @@ public class FavoriteVideos {
 		this.videoUrl = videoUrl;
 	}
 
-	public FavoriteVideos() {
+	public String getVideoTitle() {
+		return videoTitle;
+	}
+
+	public void setVideoTitle(String videoTitle) {
+		this.videoTitle = videoTitle;
 	}
 
 	@Override
 	public String toString() {
 		return "FavoriteVideos [favoriteVideosSeq=" + favoriteVideosSeq + ", userSeq=" + userSeq + ", videoUrl="
-				+ videoUrl + "]";
+				+ videoUrl + ", videoTitle=" + videoTitle + "]";
 	}
-
 }

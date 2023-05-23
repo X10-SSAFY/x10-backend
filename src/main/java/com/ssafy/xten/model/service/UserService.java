@@ -18,8 +18,6 @@ public interface UserService {
 
 	public int signup(User user);
 
-	public User login(String id, String password);
-
 	public List<User> getUserList();
 	
 	// 비밀번호 변경

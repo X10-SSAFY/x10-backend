@@ -22,7 +22,7 @@ public interface XtenService {
 	public List<FavoriteExercises> getFavoriteExercises(int seq);
 
 	// 찜한영상에 추가
-	public void addFavoriteVideos(int userSeq, String videoUrl);
+	public void addFavoriteVideos(int userSeq, String videoUrl, String videoTitle);
 
 	// 찜한영상에서 삭제
 	public void removeFavoriteVideos(int userSeq, String videoUrl);

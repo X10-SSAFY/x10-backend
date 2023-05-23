@@ -25,14 +25,6 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User login(String id, String password) {
-		User tmp = userDao.selectOne(id);
-		if (tmp != null && tmp.getPassword().equals(password))
-			return tmp;
-		return null;
-	}
-
-	@Override
 	public List<User> getUserList() {
 		return userDao.selectAllUser();
 	}

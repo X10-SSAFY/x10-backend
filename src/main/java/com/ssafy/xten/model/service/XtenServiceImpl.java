@@ -47,10 +47,11 @@ public class XtenServiceImpl implements XtenService {
 	}
 
 	@Override
-	public void addFavoriteVideos(int userSeq, String videoUrl) {
+	public void addFavoriteVideos(int userSeq, String videoUrl, String videoTitle) {
 		FavoriteVideos favoriteVideo = new FavoriteVideos();
 		favoriteVideo.setUserSeq(userSeq);
 		favoriteVideo.setVideoUrl(videoUrl);
+		favoriteVideo.setVideoTitle(videoTitle);
 		xtenDao.insertFavoriteVideos(favoriteVideo);
 	}
 

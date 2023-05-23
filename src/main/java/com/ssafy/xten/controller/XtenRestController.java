@@ -89,9 +89,9 @@ public class XtenRestController {
 	
 	// 찜한영상에 추가
 	@ApiOperation(value = "찜한 영상 목록에 추가", notes = "유저 일련번호, 비디오url 입력해서 추가")
-	@PostMapping("/xten/favoritevideos/{userSeq}/{videoUrl}")
-	public ResponseEntity<?> addFavoriteVideos(@PathVariable int userSeq, @PathVariable String videoUrl) {
-		xtenService.addFavoriteVideos(userSeq, videoUrl);
+	@PostMapping("/xten/favoritevideos/{userSeq}/{videoUrl}/{videoTitle}")
+	public ResponseEntity<?> addFavoriteVideos(@PathVariable int userSeq, @PathVariable String videoUrl, @PathVariable String videoTitle) {
+		xtenService.addFavoriteVideos(userSeq, videoUrl, videoTitle);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 
