@@ -46,11 +46,10 @@
 	</insert>
 	
 	<!-- 찜한영상에서 삭제 -->
-	<delete id="deleteFavoriteVideos" parameterType="int">
+	<delete id="deleteFavoriteVideos" parameterType="HashMap">
 		DELETE FROM favorite_videos
-		WHERE user_seq=#{userSeq} AND favorite_videos_seq=#{favoriteVideosSeq}
+		WHERE user_seq=#{userSeq} AND video_url=#{videoUrl}
 	</delete>
-	
 	
 	<!-- 찜한운동에 추가 -->
 	<insert id="insertFavoriteExercises" parameterType="FavoriteExercises">

@@ -1,7 +1,9 @@
 package com.ssafy.xten.model.service;
 
 import java.nio.charset.CodingErrorAction;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -53,8 +55,11 @@ public class XtenServiceImpl implements XtenService {
 	}
 
 	@Override
-	public void removeFavoriteVideos(int userSeq, int favoriteVideoSeq) {
-		xtenDao.deleteFavoriteVideos(userSeq, favoriteVideoSeq);
+	public void removeFavoriteVideos(int userSeq, String videoUrl) {
+		Map map = new HashMap();
+		map.put("userSeq",userSeq);
+		map.put("videoUrl",videoUrl);
+		xtenDao.deleteFavoriteVideos(map);
 	}
 
 	@Override

@@ -44,6 +44,12 @@ public class LoginService {
                 user.setNickname(userResourceNode.get("kakao_account").get("profile").get("nickname").asText());
                 break;
             } case "naver": {
+             	if(accessToken!=null) {
+            		System.out.println("얘는 아닌듯.");
+            	}
+            	if(userResourceNode==null) {
+            		System.out.println("얘가 범인이다.");
+            	}
             	//user.setId(userResourceNode.get("response").get("id").asText());
             	user.setEmail(userResourceNode.get("response").get("email").asText());
             	user.setNickname(userResourceNode.get("response").get("nickname").asText());
@@ -84,7 +90,8 @@ public class LoginService {
 
     private JsonNode getUserResource(String accessToken, String registrationId) {
         String resourceUri = env.getProperty("oauth2."+registrationId+".resource-uri");
-        System.out.println(resourceUri);
+        System.out.println(registrationId);
+        System.out.println("여기"+resourceUri);
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + accessToken);
         HttpEntity entity = new HttpEntity(headers);

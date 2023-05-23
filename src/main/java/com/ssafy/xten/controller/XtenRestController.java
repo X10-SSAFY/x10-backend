@@ -97,9 +97,9 @@ public class XtenRestController {
 
 	// 찜한영상에서 삭제
 	@ApiOperation(value = "찜한 영상 목록에서 삭제 ", notes = "유저 일련번호, 찜한 영상 일련번호 입력해서 삭제")
-	@DeleteMapping("/xten/favoritevideos/{userSeq}/{favoritevideosSeq}")
-	public ResponseEntity<?> removeFavoriteVideos(@PathVariable int userSeq, @PathVariable int favoritevideosSeq) {
-		xtenService.removeFavoriteVideos(userSeq, favoritevideosSeq);
+	@DeleteMapping("/xten/favoritevideos/{userSeq}/{videoUrl}")
+	public ResponseEntity<?> removeFavoriteVideos(@PathVariable int userSeq, @PathVariable String videoUrl) {
+		xtenService.removeFavoriteVideos(userSeq, videoUrl);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 

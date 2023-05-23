@@ -1,6 +1,7 @@
 package com.ssafy.xten.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.ssafy.xten.model.dto.Exercise;
 import com.ssafy.xten.model.dto.FavoriteExercises;
@@ -24,7 +25,7 @@ public interface XtenDao {
 	public void insertFavoriteVideos(FavoriteVideos fv);
 
 	// 찜한영상에서 삭제
-	public void deleteFavoriteVideos(int userSeq, int favoriteVideosSeq);
+	public void deleteFavoriteVideos(Map map);
 
 	// 찜한운동에 추가
 	public void insertFavoriteExercises(FavoriteExercises fe);
