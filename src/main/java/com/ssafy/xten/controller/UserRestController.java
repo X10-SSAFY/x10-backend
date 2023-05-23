@@ -140,7 +140,6 @@ public class UserRestController {
 	}
 
 	// 회원정보 수정(form data 형식으로 넘어옴)
-	@CrossOrigin(origins = "http://localhost:8080")
 	@ApiOperation(value = "회원정보 수정", notes = "비밀번호, 이메일, 닉네임을 form data 형태로 전달")
 	@PutMapping(value = "/edit/{userSeq}")
 	public ResponseEntity<?> edit(@PathVariable int userSeq, User user) {
