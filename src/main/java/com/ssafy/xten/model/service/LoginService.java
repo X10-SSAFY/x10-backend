@@ -34,21 +34,27 @@ public class LoginService {
         log.info("userResource = {}", user);
         switch (registrationId) {
             case "google": {
+            	if(accessToken!=null) {
+            		System.out.println("토큰 : "+accessToken);
+            	}
             	//user.setId(userResourceNode.get("id").asText());
             	user.setEmail(userResourceNode.get("email").asText());
             	user.setNickname(userResourceNode.get("name").asText());
                 break;
             } case "kakao": {
+            	if(accessToken!=null) {
+            		System.out.println("토큰 : "+accessToken);
+            	}
             	//user.setId(userResourceNode.get("id").asText());
             	user.setEmail(userResourceNode.get("kakao_account").get("email").asText());
                 user.setNickname(userResourceNode.get("kakao_account").get("profile").get("nickname").asText());
                 break;
             } case "naver": {
              	if(accessToken!=null) {
-            		System.out.println("얘는 아닌듯.");
+            		System.out.println("토큰 : "+accessToken);
             	}
             	if(userResourceNode==null) {
-            		System.out.println("얘가 범인이다.");
+            		System.out.println("얘가 범인이다");
             	}
             	//user.setId(userResourceNode.get("response").get("id").asText());
             	user.setEmail(userResourceNode.get("response").get("email").asText());

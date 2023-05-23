@@ -1,29 +1,33 @@
 package com.ssafy.xten.model.dto;
 
+import java.util.Arrays;
+
 public class Image {
-	private Integer imageSeq;
+	private int imageSeq;
 	private String imageType;
 	private String imageName;
 	private byte[] imageData;
 	private String uploadDate;
+	private int userSeq;
 
 	public Image() {
 	}
 
-	public Image(Integer imageSeq, String imageType, String imageName, byte[] imageData, String uploadDate) {
+	public Image(int imageSeq, String imageType, String imageName, byte[] imageData, String uploadDate, int userSeq) {
 		super();
 		this.imageSeq = imageSeq;
 		this.imageType = imageType;
 		this.imageName = imageName;
 		this.imageData = imageData;
 		this.uploadDate = uploadDate;
+		this.userSeq = userSeq;
 	}
 
-	public Integer getImageSeq() {
+	public int getImageSeq() {
 		return imageSeq;
 	}
 
-	public void setImageSeq(Integer imageSeq) {
+	public void setImageSeq(int imageSeq) {
 		this.imageSeq = imageSeq;
 	}
 
@@ -58,5 +62,14 @@ public class Image {
 	public void setUploadDate(String uploadDate) {
 		this.uploadDate = uploadDate;
 	}
+
+	public int getUserSeq() {
+		return userSeq;
+	}
+
+	public void setUserSeq(int userSeq) {
+		this.userSeq = userSeq;
+	}
+
 
 }
