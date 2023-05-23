@@ -32,7 +32,8 @@ CREATE TABLE `favorite_exercises` (
 CREATE TABLE `favorite_videos` (
 	`favorite_videos_seq`	INT	NOT NULL,
 	`user_seq`	INT	NOT NULL,
-	`video_url`	VARCHAR(200)	NOT NULL
+	`video_url`	VARCHAR(200)	NOT NULL,
+    `video_title` VARCHAR(200) NOT NULL
 );
 
 CREATE TABLE `image` (

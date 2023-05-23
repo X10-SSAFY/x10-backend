@@ -41,8 +41,8 @@
 	
 	<!-- 찜한영상에 추가 -->
 	<insert id="insertFavoriteVideos" parameterType="FavoriteVideos">
-		INSERT INTO favorite_videos (user_seq, video_url)
-		VALUES(#{userSeq}, #{videoUrl})
+		INSERT INTO favorite_videos (user_seq, video_url, video_title)
+		VALUES(#{userSeq}, #{videoUrl}, #{videoTitle})
 	</insert>
 	
 	<!-- 찜한영상에서 삭제 -->

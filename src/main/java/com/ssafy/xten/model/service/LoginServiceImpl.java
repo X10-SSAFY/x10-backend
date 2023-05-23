@@ -5,6 +5,8 @@ import com.ssafy.xten.model.dao.UserDao;
 import com.ssafy.xten.model.dto.User;
 
 import lombok.extern.slf4j.Slf4j;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,8 @@ public class LoginServiceImpl implements LoginService {
 	private final Environment env; // application.properties에서 불러오는 듯
 	private final RestTemplate restTemplate = new RestTemplate(); 
 	private static final Logger log = LoggerFactory.getLogger(LoginService.class);
+	
+	@Autowired
 	private UserDao userDao;
 
 	public LoginServiceImpl(Environment env) {
