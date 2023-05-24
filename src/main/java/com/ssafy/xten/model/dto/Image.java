@@ -1,6 +1,5 @@
 package com.ssafy.xten.model.dto;
 
-import java.util.Arrays;
 
 public class Image {
 	private int imageSeq;

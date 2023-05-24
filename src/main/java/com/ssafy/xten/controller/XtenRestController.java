@@ -101,7 +101,7 @@ public class XtenRestController {
 	// 찜한영상에서 삭제
 	@ApiOperation(value = "찜한 영상 목록에서 삭제 ", notes = "유저 일련번호, 찜한 영상 일련번호 입력해서 삭제")
 	@DeleteMapping("/xten/favoritevideos")
-	public ResponseEntity<?> removeFavoriteVideos(FavoriteVideos fv) {
+	public ResponseEntity<?> removeFavoriteVideos(@RequestBody FavoriteVideos fv) {
 		int userSeq = fv.getUserSeq();
 		String videoUrl = fv.getVideoUrl();
 		xtenService.removeFavoriteVideos(userSeq, videoUrl);
