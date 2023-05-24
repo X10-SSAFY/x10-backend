@@ -31,7 +31,7 @@ public interface XtenDao {
 	public void insertFavoriteExercises(FavoriteExercises fe);
                             
 	// 찜한운동에서 삭제
-	public void deleteFavoriteExercises(int userSeq, int favoriteExercisesSeq);
+	public void deleteFavoriteExercises(int userSeq, int exerciseSeq);
 
 	// 테스트 결과 저장
 	public void insertTestResult(TestResult tr);

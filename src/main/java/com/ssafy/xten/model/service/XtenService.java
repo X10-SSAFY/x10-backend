@@ -31,7 +31,7 @@ public interface XtenService {
 	public void addFavoriteExercises(int userSeq, int exerciseSeq);
 
 	// 찜한운동에서 삭제
-	public void removeFavoriteExercises(int userSeq, int favoriteExercisesSeq);
+	public void removeFavoriteExercises(int userSeq, int exerciseSeq);
 
 	// 테스트 결과 저장
 	public void addTestResult(int userSeq, int exerciseSeq);

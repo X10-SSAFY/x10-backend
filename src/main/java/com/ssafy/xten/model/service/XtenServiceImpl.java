@@ -72,8 +72,8 @@ public class XtenServiceImpl implements XtenService {
 	}
 
 	@Override
-	public void removeFavoriteExercises(int userSeq, int favoriteExercisesSeq) {
-		xtenDao.deleteFavoriteExercises(userSeq, favoriteExercisesSeq);
+	public void removeFavoriteExercises(int userSeq, int exerciseSeq) {
+		xtenDao.deleteFavoriteExercises(userSeq, exerciseSeq);
 	}
 
 	@Override
