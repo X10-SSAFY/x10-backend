@@ -26,7 +26,7 @@
 	<select id="selectFavoriteVideos" resultType="FavoriteVideos" parameterType="int">
 		SELECT favorite_videos_seq as favoriteVideosSeq,
 		user_seq as userSeq,
-		video_url as videoUrl
+		video_url as videoUrl,
 		video_title as videoTitle
 		FROM favorite_videos
 		WHERE user_seq=#{userSeq}
