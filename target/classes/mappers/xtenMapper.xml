@@ -60,7 +60,7 @@
 	<!-- 찜한운동에서 삭제 -->
 	<delete id="deleteFavoriteExercises" parameterType="int">
 		DELETE FROM favorite_exercises
-		WHERE user_seq=#{userSeq} AND exercises_seq=#{exercisesSeq}
+		WHERE user_seq=#{userSeq} AND exercise_seq=#{exerciseSeq}
 	</delete>
 	
 	<!-- 테스트 결과 저장 -->

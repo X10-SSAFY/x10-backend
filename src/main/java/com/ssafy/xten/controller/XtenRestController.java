@@ -81,7 +81,7 @@ public class XtenRestController {
 
 	// 찜한운동에서 삭제
 	@ApiOperation(value = "찜한 운동 목록에서 삭제 ", notes = "유저 일련번호, 찜한 운동 일련번호 입력해서 삭제")
-	@DeleteMapping("/xten/favoriteexercises/{userSeq}/{exercisesSeq}")
+	@DeleteMapping("/xten/favoriteexercises/{userSeq}/{exerciseSeq}")
 	public ResponseEntity<?> removeFavoriteExercises(@PathVariable int userSeq, @PathVariable int exerciseSeq) {
 		xtenService.removeFavoriteExercises(userSeq, exerciseSeq);
 		return new ResponseEntity<Void>(HttpStatus.OK);
