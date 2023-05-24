@@ -17,7 +17,7 @@
 		SELECT test_result_seq as testResultSeq,
 		user_seq as userSeq,
 		exercise_seq as exerciseSeq,
-		date_format(test_date, '%y-%m-%d %H:%i:%s') as testDate
+		date_format(test_date, '%y-%m-%d %H:%i') as testDate
 		FROM test_result
 		WHERE user_seq=#{userSeq}
 	</select>

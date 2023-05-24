@@ -15,7 +15,7 @@ CREATE TABLE `test_result` (
 	`test_result_seq`	INT	NOT NULL,
 	`exercise_seq`	INT	NOT NULL,
 	`user_seq`	INT	NOT NULL,
-	`test_date`	DATETIME	NOT NULL
+	`test_date`	DATETIME DEFAULT CURRENT_TIMESTAMP	NOT NULL
 );
 
 CREATE TABLE `exercise` (
@@ -150,6 +150,9 @@ SELECT * FROM user;
 SELECT * FROM favorite_videos;
 
 SELECT * FROM image;
+
+DELETE FROM favorite_videos
+		WHERE user_seq=1 AND video_url="운동영상주소";
 
 
 
