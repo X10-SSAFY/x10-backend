@@ -81,7 +81,7 @@ public class UserRestController {
 	// 소셜 로그인
 	@ApiOperation(value = "소셜 로그인", notes = "DB에 없는 email이면 가입시키고 로그인, 있으면 바로 로그인. 로그인 성공하면 유저 일련번호 반환. registrationId = google or kakao or naver")
 	@GetMapping("/login/oauth2/{registrationId}")
-	public ResponseEntity<?> socialLogin(@RequestParam String code, @PathVariable String registrationId,
+	public int socialLogin(@RequestParam String code, @PathVariable String registrationId,
 			HttpSession session) {
 		User tmp = loginService.socialLogin(code, registrationId);
 		// 소셜로그인 처음하는 회원이면 가입시키고 로그인
@@ -89,13 +89,15 @@ public class UserRestController {
 			userService.signup(tmp);
 			User user = userService.getUserByEmail(tmp.getEmail());
 			session.setAttribute("loginUser", user);
-			return new ResponseEntity<Integer>(user.getUserSeq(), HttpStatus.OK);
+			//return new ResponseEntity<Integer>(user.getUserSeq(), HttpStatus.OK);
+			return user.getUserSeq();
 		}
 		// 처음 아니면 바로 로그인
 		else {
 			User user = userService.getUserByEmail(tmp.getEmail());
 			session.setAttribute("loginUser", user);
-			return new ResponseEntity<Integer>(user.getUserSeq(), HttpStatus.OK);
+			//return new ResponseEntity<Integer>(user.getUserSeq(), HttpStatus.OK);
+			return user.getUserSeq();
 		}
 	}
 
