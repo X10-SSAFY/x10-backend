@@ -151,8 +151,5 @@ SELECT * FROM favorite_videos;
 
 SELECT * FROM image;
 
-DELETE FROM favorite_videos
-		WHERE user_seq=1 AND video_url="운동영상주소";
-
 
 
