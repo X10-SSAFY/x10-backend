@@ -43,18 +43,18 @@ public class LoginServiceImpl implements LoginService {
 			user.setNickname(userResourceNode.get("name").asText());
 			break;
 		}
-//		case "kakao": {
-//			// user.setId(userResourceNode.get("id").asText());
-//			user.setEmail(userResourceNode.get("kakao_account").get("email").asText());
-//			user.setNickname(userResourceNode.get("kakao_account").get("profile").get("nickname").asText());
-//			break;
-//		}
-//		case "naver": {
-//			// user.setId(userResourceNode.get("response").get("id").asText());
-//			user.setEmail(userResourceNode.get("response").get("email").asText());
-//			user.setNickname(userResourceNode.get("response").get("nickname").asText());
-//			break;
-//		}
+		case "kakao": {
+			// user.setId(userResourceNode.get("id").asText());
+			user.setEmail(userResourceNode.get("kakao_account").get("email").asText());
+			user.setNickname(userResourceNode.get("kakao_account").get("profile").get("nickname").asText());
+			break;
+		}
+		case "naver": {
+			// user.setId(userResourceNode.get("response").get("id").asText());
+			user.setEmail(userResourceNode.get("response").get("email").asText());
+			user.setNickname(userResourceNode.get("response").get("nickname").asText());
+			break;
+		}
 		default: {
 			throw new RuntimeException("UNSUPPORTED SOCIAL TYPE");
 		}
